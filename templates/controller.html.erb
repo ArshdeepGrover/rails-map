@@ -1,0 +1,68 @@
+<div class="breadcrumb">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <a href="../routes.html">Routes</a>
+  <span>/</span>
+  <span><%= controller_name.camelize %>Controller</span>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h2 class="card-title"><%= controller_name.camelize %>Controller</h2>
+    <span class="badge badge-any"><%= routes.size %> routes</span>
+  </div>
+
+  <div style="margin-bottom: 1.5rem;">
+    <strong>Actions:</strong> 
+    <% actions.each_with_index do |action, index| %>
+      <code><%= action %></code><%= index < actions.size - 1 ? ', ' : '' %>
+    <% end %>
+  </div>
+
+  <% if routes.any? %>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Path</th>
+            <th>Action</th>
+            <th>Route Name</th>
+            <th>Constraints</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% routes.each do |route| %>
+            <tr>
+              <td>
+                <span class="badge badge-<%= route.verb.downcase.split('|').first %>">
+                  <%= route.verb %>
+                </span>
+              </td>
+              <td><code><%= route.path %></code></td>
+              <td><code><%= route.action %></code></td>
+              <td>
+                <% if route.name %>
+                  <code><%= route.name %></code>
+                <% else %>
+                  <span style="color: var(--text-muted);">—</span>
+                <% end %>
+              </td>
+              <td>
+                <% if route.constraints.any? %>
+                  <% route.constraints.each do |key, value| %>
+                    <code><%= key %>: <%= value %></code><br>
+                  <% end %>
+                <% else %>
+                  <span style="color: var(--text-muted);">—</span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <div class="empty-state">No routes found for this controller</div>
+  <% end %>
+</div>

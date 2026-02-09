@@ -1,0 +1,55 @@
+<div class="breadcrumb">
+  <a href="index.html">Home</a>
+  <span>/</span>
+  <span>All Routes</span>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h2 class="card-title">All Routes</h2>
+    <span class="badge badge-any"><%= routes_count %> total</span>
+  </div>
+
+  <% if routes.any? %>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Path</th>
+            <th>Controller#Action</th>
+            <th>Route Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% routes.each do |controller, data| %>
+            <% data[:routes].each do |route| %>
+              <tr>
+                <td>
+                  <span class="badge badge-<%= route.verb.downcase.split('|').first %>">
+                    <%= route.verb %>
+                  </span>
+                </td>
+                <td><code><%= route.path %></code></td>
+                <td>
+                  <a href="controllers/<%= controller.gsub('/', '_') %>.html" class="link">
+                    <%= controller %>#<%= route.action %>
+                  </a>
+                </td>
+                <td>
+                  <% if route.name %>
+                    <code><%= route.name %></code>
+                  <% else %>
+                    <span style="color: var(--text-muted);">—</span>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <div class="empty-state">No routes found</div>
+  <% end %>
+</div>

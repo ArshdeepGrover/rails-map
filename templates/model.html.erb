@@ -1,0 +1,219 @@
+<div class="breadcrumb">
+  <a href="../index.html">Home</a>
+  <span>/</span>
+  <span><%= model.name %></span>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h2 class="card-title"><%= model.name %></h2>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+    <div>
+      <strong>Table Name:</strong><br>
+      <code><%= model.table_name || 'N/A' %></code>
+    </div>
+    <div>
+      <strong>Primary Key:</strong><br>
+      <code><%= model.primary_key || 'id' %></code>
+    </div>
+  </div>
+</div>
+
+<!-- Columns Section -->
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Columns</h3>
+    <span class="badge badge-any"><%= model.columns.size %></span>
+  </div>
+
+  <% if model.columns.any? %>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Nullable</th>
+            <th>Default</th>
+            <th>Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% model.columns.each do |column| %>
+            <tr>
+              <td>
+                <code><%= column.name %></code>
+                <% if column.name == model.primary_key %>
+                  <span class="badge badge-post" style="margin-left: 0.5rem;">PK</span>
+                <% end %>
+              </td>
+              <td><span class="type-badge"><%= column.type %></span></td>
+              <td>
+                <% if column.null %>
+                  <span style="color: var(--success-color);">Yes</span>
+                <% else %>
+                  <span style="color: var(--danger-color);">No</span>
+                <% end %>
+              </td>
+              <td>
+                <% if column.default.nil? %>
+                  <span style="color: var(--text-muted);">—</span>
+                <% else %>
+                  <code><%= column.default %></code>
+                <% end %>
+              </td>
+              <td>
+                <% details = [] %>
+                <% details << "limit: #{column.limit}" if column.limit %>
+                <% details << "precision: #{column.precision}" if column.precision %>
+                <% details << "scale: #{column.scale}" if column.scale %>
+                <% if details.any? %>
+                  <span style="color: var(--text-muted); font-size: 0.875rem;"><%= details.join(', ') %></span>
+                <% else %>
+                  <span style="color: var(--text-muted);">—</span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <div class="empty-state">No columns found</div>
+  <% end %>
+</div>
+
+<!-- Associations Section -->
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Associations</h3>
+    <span class="badge badge-any"><%= model.associations.size %></span>
+  </div>
+
+  <% if model.associations.any? %>
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Name</th>
+            <th>Related Model</th>
+            <th>Foreign Key</th>
+            <th>Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% model.associations.each do |assoc| %>
+            <tr>
+              <td>
+                <span class="badge badge-<%= assoc.type.gsub('_', '-') %>">
+                  <%= assoc.type.gsub('_', ' ') %>
+                </span>
+              </td>
+              <td><code><%= assoc.name %></code></td>
+              <td>
+                <% related_file = "#{assoc.class_name.underscore.gsub('/', '_')}.html" %>
+                <a href="<%= related_file %>" class="link"><%= assoc.class_name %></a>
+              </td>
+              <td>
+                <% if assoc.foreign_key %>
+                  <code><%= assoc.foreign_key %></code>
+                <% else %>
+                  <span style="color: var(--text-muted);">—</span>
+                <% end %>
+              </td>
+              <td>
+                <% if assoc.options.any? %>
+                  <% assoc.options.each do |key, value| %>
+                    <code><%= key %>: <%= value %></code><br>
+                  <% end %>
+                <% else %>
+                  <span style="color: var(--text-muted);">—</span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <div class="empty-state">No associations found</div>
+  <% end %>
+</div>
+
+<!-- Validations Section -->
+<% if model.validations.any? %>
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Validations</h3>
+      <span class="badge badge-any"><%= model.validations.size %></span>
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Attribute</th>
+            <th>Validation</th>
+            <th>Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% model.validations.each do |validation| %>
+            <tr>
+              <td><code><%= validation.attribute %></code></td>
+              <td><code><%= validation.kind %></code></td>
+              <td>
+                <% if validation.options.any? %>
+                  <% validation.options.each do |key, value| %>
+                    <code><%= key %>: <%= value %></code><br>
+                  <% end %>
+                <% else %>
+                  <span style="color: var(--text-muted);">—</span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>
+
+<!-- Scopes Section -->
+<% if model.scopes.any? %>
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Scopes</h3>
+      <span class="badge badge-any"><%= model.scopes.size %></span>
+    </div>
+
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Arguments</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% model.scopes.each do |scope| %>
+            <tr>
+              <td><code><%= scope.name %></code></td>
+              <td>
+                <% if scope.arity && scope.arity != 0 %>
+                  <%= scope.arity.abs %> argument<%= scope.arity.abs != 1 ? 's' : '' %>
+                  <%= scope.arity < 0 ? '(variable)' : '' %>
+                <% else %>
+                  <span style="color: var(--text-muted);">None</span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>
