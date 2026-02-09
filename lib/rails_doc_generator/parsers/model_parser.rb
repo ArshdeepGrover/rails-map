@@ -31,11 +31,29 @@ module RailsDocGenerator
       def parse
         return {} unless defined?(Rails) && defined?(ActiveRecord::Base)
 
-        # Eager load all models
-        Rails.application.eager_load! if Rails.application.respond_to?(:eager_load!)
+        # Eager load all models - force it even in development
+        begin
+          Rails.application.eager_load!
+        rescue => e
+          Rails.logger.warn "Could not eager load: #{e.message}" if defined?(Rails.logger)
+        end
+        
+        # Also try to load app/models directory explicitly
+        if defined?(Rails.root)
+          Dir[Rails.root.join('app/models/**/*.rb')].each do |file|
+            begin
+              require_dependency file
+            rescue => e
+              # Ignore errors, file might already be loaded
+            end
+          end
+        end
 
         models = ActiveRecord::Base.descendants.reject do |model|
-          model.abstract_class? || model.name.nil? || model.name.start_with?("HABTM_")
+          model.abstract_class? || 
+            model.name.nil? || 
+            model.name.start_with?("HABTM_") ||
+            excluded_model?(model)
         end
 
         models.each_with_object({}) do |model, hash|
@@ -187,6 +205,52 @@ module RailsDocGenerator
         model.method(name).arity
       rescue StandardError
         0
+      end
+
+      def excluded_model?(model)
+        return true if model.name.nil?
+        
+        # Exclude models from gems/engines by namespace
+        excluded_namespaces = %w[
+          RailsDocGenerator
+          ActionMailbox
+          ActionText
+          ActiveStorage
+          Turbo
+          Devise
+          Sidekiq
+          SolidQueue
+          SolidCache
+          GoodJob
+          Que
+          Delayed
+          Flipper
+          PgHero
+          Blazer
+          Avo
+          MissionControl
+          Administrate
+          RailsAdmin
+          Ahoy
+        ]
+        
+        # Check namespace exclusions first (fast check)
+        model_name = model.name.to_s
+        first_namespace = model_name.split('::').first
+        return true if excluded_namespaces.include?(first_namespace)
+        return true if excluded_namespaces.any? { |ns| model_name.start_with?("#{ns}::") }
+        
+        # Check if model file exists in app/models of host app
+        if defined?(Rails.root)
+          # Convert model name to file path (e.g., User -> user.rb, Admin::User -> admin/user.rb)
+          model_path = model_name.underscore + '.rb'
+          model_file = Rails.root.join('app', 'models', model_path)
+          
+          # If the file doesn't exist in app/models, it's likely from a gem
+          return true unless File.exist?(model_file)
+        end
+        
+        false
       end
     end
   end

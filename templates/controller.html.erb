@@ -12,11 +12,17 @@
     <span class="badge badge-any"><%= routes.size %> routes</span>
   </div>
 
-  <div style="margin-bottom: 1.5rem;">
-    <strong>Actions:</strong> 
-    <% actions.each_with_index do |action, index| %>
-      <code><%= action %></code><%= index < actions.size - 1 ? ', ' : '' %>
-    <% end %>
+  <div style="display: flex; gap: 2rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+    <div>
+      <strong>Base Path:</strong><br>
+      <code style="background: var(--primary-color); color: white; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 1rem;"><%= base_path || '/' %></code>
+    </div>
+    <div>
+      <strong>Actions:</strong><br>
+      <% actions.each_with_index do |action, index| %>
+        <code><%= action %></code><%= index < actions.size - 1 ? ' ' : '' %>
+      <% end %>
+    </div>
   </div>
 
   <% if routes.any? %>

@@ -2,6 +2,7 @@
 
 require_relative "rails_doc_generator/version"
 require_relative "rails_doc_generator/configuration"
+require_relative "rails_doc_generator/auth"
 require_relative "rails_doc_generator/parsers/route_parser"
 require_relative "rails_doc_generator/parsers/model_parser"
 require_relative "rails_doc_generator/generators/html_generator"
@@ -59,4 +60,7 @@ module RailsDocGenerator
   end
 end
 
-require_relative "rails_doc_generator/railtie" if defined?(Rails::Railtie)
+if defined?(Rails::Railtie)
+  require_relative "rails_doc_generator/engine"
+  require_relative "rails_doc_generator/railtie"
+end

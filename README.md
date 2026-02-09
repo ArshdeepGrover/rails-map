@@ -20,17 +20,61 @@ And then execute:
 bundle install
 ```
 
-Or install it yourself:
+### Quick Setup (With Authentication - Default)
+
+Run the installer:
 
 ```bash
-gem install rails_doc_generator
+rails g rails_doc_generator:install
+rails db:migrate
 ```
+
+Create an admin user:
+
+```bash
+rails c
+RailsDocGenerator::User.create!(username: 'admin', password: 'your_secure_password')
+```
+
+This automatically:
+- ✅ Creates `config/initializers/rails_doc_generator.rb` with authentication enabled
+- ✅ Mounts the engine at `/api-doc`
+- ✅ Creates migration for users table
+- ✅ Adds `/doc/api` to `.gitignore`
+
+Start your server and visit `http://localhost:3000/api-doc` - you'll be prompted to login!
+
+### Setup Without Authentication
+
+If you don't want authentication (development only recommended):
+
+```bash
+rails g rails_doc_generator:install --skip-auth
+```
+
+This will:
+- ✅ Create the configuration file (auth disabled)
+- ✅ Mount the engine at `/api-doc`
+- ✅ Add `/doc/api` to `.gitignore`
+- ❌ Skip creating user migration
+
+Start your server and visit `/api-doc` - no login required!
 
 ## Usage
 
-### Generate Documentation
+### Live Documentation (Recommended)
 
-Run the following rake task to generate documentation:
+Mount the engine in your `config/routes.rb`:
+
+```ruby
+mount RailsDocGenerator::Engine, at: '/api-doc'
+```
+
+Then visit `http://localhost:3000/api-doc` in your browser to see live documentation.
+
+### Static HTML Generation
+
+Run the following rake task to generate static HTML documentation:
 
 ```bash
 rails doc:generate
@@ -73,6 +117,32 @@ RailsDocGenerator.configure do |config|
   
   # Include model scopes in documentation
   config.include_scopes = true
+  
+  # Authentication (optional) - Protect documentation with authentication
+  # This block will be executed in the controller context
+  
+  # Option 1: Built-in authentication (recommended if not using Devise)
+  # Requires: rails g rails_doc_generator:install --with-auth
+  config.authenticate_with = proc {
+    RailsDocGenerator::Auth.authenticate(self)
+  }
+  
+  # Option 2: Devise
+  # config.authenticate_with = proc {
+  #   authenticate_user!
+  # }
+  
+  # Option 3: HTTP Basic Auth with ENV variables
+  # config.authenticate_with = proc {
+  #   authenticate_or_request_with_http_basic do |username, password|
+  #     username == ENV['DOC_USERNAME'] && password == ENV['DOC_PASSWORD']
+  #   end
+  # }
+  
+  # Option 4: Custom logic
+  # config.authenticate_with = proc {
+  #   redirect_to root_path unless current_user&.admin?
+  # }
 end
 ```
 

@@ -3,9 +3,12 @@
 /_yardoc/
 /coverage/
 /doc/
+/doc/api/
 /pkg/
 /spec/reports/
 /tmp/
 *.gem
 *.lock
 .DS_Store
+
+.idea

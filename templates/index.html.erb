@@ -26,7 +26,10 @@
           <h3 class="card-title"><%= controller.camelize %>Controller</h3>
           <span class="badge badge-any"><%= data[:routes].size %> routes</span>
         </div>
-        <p style="color: var(--text-muted); margin-bottom: 1rem;">
+        <p style="margin-bottom: 0.5rem;">
+          <code style="background: var(--primary-color); color: white; padding: 0.25rem 0.5rem; border-radius: 0.25rem;"><%= data[:base_path] || '/' %></code>
+        </p>
+        <p style="color: var(--text-muted); margin-bottom: 1rem; font-size: 0.875rem;">
           Actions: <%= data[:actions].join(', ') %>
         </p>
         <a href="controllers/<%= controller.gsub('/', '_') %>.html" class="link">View Details →</a>

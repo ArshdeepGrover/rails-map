@@ -90,6 +90,7 @@ module RailsDocGenerator
       def binding_for_controller(controller_name, data)
         routes_list = data[:routes]
         actions = data[:actions]
+        base_path = data[:base_path]
         routes = routes_list # alias for template
         binding
       end

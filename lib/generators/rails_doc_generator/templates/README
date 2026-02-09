@@ -1,0 +1,48 @@
+===============================================================================
+
+RailsDocGenerator has been installed!
+
+✓ Configuration file created at:
+    config/initializers/rails_doc_generator.rb
+
+<% unless options[:skip_routes] %>
+✓ Route mounted in config/routes.rb:
+    mount RailsDocGenerator::Engine, at: '/api-doc'
+<% end %>
+
+✓ Added /doc/api to .gitignore
+
+<% unless options[:skip_auth] %>
+Built-in authentication has been set up! (ENABLED by default)
+
+Next steps:
+1. Run migrations:
+     rails db:migrate
+
+2. Create an admin user in rails console:
+     rails c
+     RailsDocGenerator::User.create!(username: 'admin', password: 'your_secure_password')
+
+3. Restart your server and visit /api-doc
+   You'll be prompted to login with your username/password
+
+To disable authentication, run:
+  rails destroy rails_doc_generator:install
+  rails g rails_doc_generator:install --skip-auth
+<% else %>
+Built-in authentication has been SKIPPED (--skip-auth flag used)
+
+To enable built-in authentication, run:
+  rails g rails_doc_generator:install
+
+Or configure your own authentication in:
+  config/initializers/rails_doc_generator.rb
+<% end %>
+
+Documentation:
+  Visit http://localhost:3000/api-doc after starting your server
+
+For more information, see:
+  https://github.com/your-username/rails_doc_generator
+
+===============================================================================
