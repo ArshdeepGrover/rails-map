@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module RailsDocGenerator
+module RailsMap
   module Parsers
     class RouteParser
       RouteInfo = Struct.new(
@@ -140,7 +140,7 @@ module RailsDocGenerator
         
         # Exclude common gem/internal controller namespaces (check first segment)
         excluded_prefixes = %w[
-          rails_doc_generator
+          rails_map
           action_mailbox
           action_cable
           active_storage

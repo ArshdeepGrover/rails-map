@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require_relative "rails_doc_generator/version"
-require_relative "rails_doc_generator/configuration"
-require_relative "rails_doc_generator/auth"
-require_relative "rails_doc_generator/parsers/route_parser"
-require_relative "rails_doc_generator/parsers/model_parser"
-require_relative "rails_doc_generator/generators/html_generator"
+require_relative "rails_map/version"
+require_relative "rails_map/configuration"
+require_relative "rails_map/auth"
+require_relative "rails_map/parsers/route_parser"
+require_relative "rails_map/parsers/model_parser"
+require_relative "rails_map/generators/html_generator"
 
-module RailsDocGenerator
+module RailsMap
   class Error < StandardError; end
 
   class << self
@@ -61,6 +61,6 @@ module RailsDocGenerator
 end
 
 if defined?(Rails::Railtie)
-  require_relative "rails_doc_generator/engine"
-  require_relative "rails_doc_generator/railtie"
+  require_relative "rails_map/engine"
+  require_relative "rails_map/railtie"
 end

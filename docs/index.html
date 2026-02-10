@@ -3,37 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RailsDocGenerator - Auto-generate beautiful API documentation for Rails</title>
-  <meta name="description" content="Automatically generate beautiful, interactive API documentation for your Ruby on Rails application. Zero configuration required.">
+  <title>RailsMap - The Missing Bridge Between Your Rails Backend & Frontend Team</title>
+  <meta name="description" content="RailsMap automatically maps your Rails routes, controllers, and models into beautiful, interactive documentation. Bridge the gap between backend and frontend teams instantly.">
+  <meta name="keywords" content="rails, api documentation, ruby on rails, api docs, rails routes, rails models, developer tools">
+  <meta property="og:title" content="RailsMap - The Missing Bridge Between Backend & Frontend">
+  <meta property="og:description" content="Auto-generate interactive API documentation for Rails. Zero configuration.">
+  <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary: #6366f1;
-      --primary-dark: #4f46e5;
-      --primary-light: #818cf8;
-      --bg-dark: #0a0a0b;
-      --bg-card: #141416;
-      --bg-card-hover: #1a1a1d;
+      --primary: #ef4444;
+      --primary-dark: #dc2626;
+      --primary-light: #f87171;
+      --ruby: #cc342d;
+      --ruby-light: #ff6b6b;
+      --accent: #3b82f6;
+      --accent-light: #60a5fa;
+      --bg-dark: #09090b;
+      --bg-card: #18181b;
+      --bg-card-hover: #27272a;
       --text: #fafafa;
       --text-muted: #a1a1aa;
       --text-dim: #71717a;
       --border: #27272a;
-      --gradient-1: #6366f1;
-      --gradient-2: #8b5cf6;
-      --gradient-3: #d946ef;
+      --border-light: #3f3f46;
+      --success: #22c55e;
+      --warning: #f59e0b;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -43,6 +44,8 @@
       overflow-x: hidden;
     }
 
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+
     /* Navbar */
     .navbar {
       position: fixed;
@@ -51,7 +54,7 @@
       right: 0;
       z-index: 100;
       padding: 1rem 2rem;
-      background: rgba(10, 10, 11, 0.8);
+      background: rgba(9, 9, 11, 0.9);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
     }
@@ -65,24 +68,26 @@
     }
 
     .logo {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--text);
-      text-decoration: none;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text);
     }
 
-    .logo-icon {
-      width: 32px;
-      height: 32px;
-      background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
+    .logo-img {
+      height: 40px;
+      width: auto;
+    }
+
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+    }
+
+    .logo-text span {
+      color: var(--ruby);
     }
 
     .nav-links {
@@ -99,20 +104,19 @@
       transition: color 0.2s;
     }
 
-    .nav-links a:hover {
-      color: var(--text);
-    }
+    .nav-links a:hover { color: var(--text); }
 
     .nav-btn {
-      padding: 0.5rem 1rem;
-      background: var(--primary);
+      padding: 0.625rem 1.25rem;
+      background: var(--ruby);
       color: white !important;
       border-radius: 0.5rem;
+      font-weight: 600;
       transition: all 0.2s;
     }
 
     .nav-btn:hover {
-      background: var(--primary-dark);
+      background: var(--ruby-light);
       transform: translateY(-1px);
     }
 
@@ -121,91 +125,93 @@
       min-height: 100vh;
       display: flex;
       align-items: center;
-      justify-content: center;
       padding: 8rem 2rem 4rem;
       position: relative;
+      overflow: hidden;
     }
 
     .hero::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 1000px;
-      height: 600px;
-      background: radial-gradient(ellipse at center, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: 
+        radial-gradient(ellipse at 30% 20%, rgba(204, 52, 45, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 80%, rgba(59, 130, 246, 0.08) 0%, transparent 50%);
       pointer-events: none;
     }
 
     .hero-content {
-      max-width: 900px;
-      text-align: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
       position: relative;
       z-index: 1;
     }
 
-    .badge {
+    .hero-text { max-width: 600px; }
+
+    .hero-badge {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
       padding: 0.5rem 1rem;
-      background: rgba(99, 102, 241, 0.1);
-      border: 1px solid rgba(99, 102, 241, 0.3);
+      background: rgba(204, 52, 45, 0.1);
+      border: 1px solid rgba(204, 52, 45, 0.3);
       border-radius: 2rem;
       font-size: 0.875rem;
-      color: var(--primary-light);
-      margin-bottom: 2rem;
+      color: var(--ruby-light);
+      margin-bottom: 1.5rem;
     }
 
-    .badge-dot {
+    .hero-badge-dot {
       width: 8px;
       height: 8px;
-      background: var(--primary);
+      background: var(--ruby);
       border-radius: 50%;
       animation: pulse 2s infinite;
     }
 
     @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.9); }
     }
 
     h1 {
-      font-size: clamp(2.5rem, 6vw, 4rem);
-      font-weight: 800;
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 900;
       line-height: 1.1;
       margin-bottom: 1.5rem;
-      letter-spacing: -0.025em;
+      letter-spacing: -0.03em;
     }
 
-    .gradient-text {
-      background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2), var(--gradient-3));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+    .highlight { color: var(--ruby); }
+    .highlight-blue { color: var(--accent); }
 
     .hero-description {
       font-size: 1.25rem;
       color: var(--text-muted);
-      max-width: 600px;
-      margin: 0 auto 2.5rem;
+      margin-bottom: 2rem;
+      line-height: 1.7;
     }
 
     .hero-buttons {
       display: flex;
       gap: 1rem;
-      justify-content: center;
       flex-wrap: wrap;
+      margin-bottom: 3rem;
     }
 
     .btn {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.875rem 1.75rem;
+      padding: 1rem 2rem;
       border-radius: 0.75rem;
       font-size: 1rem;
       font-weight: 600;
@@ -216,14 +222,14 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+      background: linear-gradient(135deg, var(--ruby), var(--primary));
       color: white;
-      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+      box-shadow: 0 4px 20px rgba(204, 52, 45, 0.4);
     }
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
+      box-shadow: 0 8px 30px rgba(204, 52, 45, 0.5);
     }
 
     .btn-secondary {
@@ -234,30 +240,585 @@
 
     .btn-secondary:hover {
       background: var(--bg-card-hover);
-      border-color: var(--text-dim);
+      border-color: var(--border-light);
     }
 
-    /* Install Command */
-    .install-section {
-      padding: 2rem 2rem 4rem;
+    .hero-stats {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .hero-stat {
+      text-align: left;
+    }
+
+    .hero-stat-value {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .hero-stat-label {
+      font-size: 0.8125rem;
+      color: var(--text-dim);
+    }
+
+    /* Hero Visual */
+    .hero-visual {
+      position: relative;
+    }
+
+    .bridge-diagram {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      position: relative;
+    }
+
+    .bridge-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .bridge-row:last-child { margin-bottom: 0; }
+
+    .bridge-box {
+      flex: 1;
+      padding: 1.25rem;
+      border-radius: 0.75rem;
       text-align: center;
+    }
+
+    .bridge-box.backend {
+      background: linear-gradient(135deg, rgba(204, 52, 45, 0.15), rgba(204, 52, 45, 0.05));
+      border: 1px solid rgba(204, 52, 45, 0.3);
+    }
+
+    .bridge-box.frontend {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(59, 130, 246, 0.05));
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .bridge-box.center {
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.05));
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      flex: 0.8;
+    }
+
+    .bridge-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .bridge-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    .bridge-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-top: 0.25rem;
+    }
+
+    .bridge-connector {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dim);
+    }
+
+    .bridge-connector svg {
+      animation: flowRight 1.5s infinite;
+    }
+
+    @keyframes flowRight {
+      0%, 100% { opacity: 0.3; transform: translateX(-5px); }
+      50% { opacity: 1; transform: translateX(5px); }
+    }
+
+    .bridge-items {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .bridge-item {
+      background: var(--bg-dark);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 0.75rem;
+      text-align: center;
+    }
+
+    .bridge-item-icon {
+      font-size: 1.25rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .bridge-item-text {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* Problem Section */
+    .problem {
+      padding: 6rem 2rem;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+    }
+
+    .problem-content {
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ruby);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.025em;
+    }
+
+    .section-description {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      max-width: 700px;
+      margin: 0 auto 3rem;
+    }
+
+    .pain-points {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      text-align: left;
+    }
+
+    .pain-point {
+      background: var(--bg-dark);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pain-point::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--ruby), var(--primary-light));
+    }
+
+    .pain-point-icon {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .pain-point h3 {
+      font-size: 1.125rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .pain-point p {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Solution Section */
+    .solution {
+      padding: 6rem 2rem;
+    }
+
+    .solution-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .solution-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .solution-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 1.25rem;
+      padding: 2rem;
+      transition: all 0.3s;
+    }
+
+    .solution-card:hover {
+      border-color: var(--ruby);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .solution-card-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, rgba(204, 52, 45, 0.2), rgba(59, 130, 246, 0.2));
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .solution-card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .solution-card p {
+      font-size: 0.9375rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    .solution-card-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .solution-card-feature {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.625rem;
+      background: var(--bg-dark);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      color: var(--text-muted);
+    }
+
+    /* Demo Section */
+    .demo {
+      padding: 6rem 2rem;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+    }
+
+    .demo-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .demo-container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .demo-window {
+      background: linear-gradient(135deg, var(--ruby), var(--accent));
+      padding: 3px;
+      border-radius: 1rem;
+      box-shadow: 0 25px 80px rgba(204, 52, 45, 0.2), 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .demo-window-inner {
+      background: var(--bg-dark);
+      border-radius: calc(1rem - 3px);
+      overflow: hidden;
+    }
+
+    .demo-header-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 1.25rem;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .demo-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .demo-dot.red { background: #ff5f57; }
+    .demo-dot.yellow { background: #febc2e; }
+    .demo-dot.green { background: #28c840; }
+
+    .demo-url {
+      flex: 1;
+      text-align: center;
+      font-size: 0.8125rem;
+      color: var(--text-dim);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .demo-content {
+      padding: 2rem;
+    }
+
+    .demo-nav {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .demo-nav-item {
+      padding: 0.5rem 1rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .demo-nav-item.active {
+      background: var(--ruby);
+      border-color: var(--ruby);
+      color: white;
+    }
+
+    .demo-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .demo-stat {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .demo-stat-value {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--ruby), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .demo-stat-label {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .demo-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .demo-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+      transition: all 0.2s;
+    }
+
+    .demo-card:hover {
+      border-color: var(--border-light);
+    }
+
+    .demo-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .demo-card-title {
+      font-weight: 600;
+      font-size: 0.9375rem;
+    }
+
+    .demo-card-badge {
+      font-size: 0.6875rem;
+      padding: 0.25rem 0.5rem;
+      background: rgba(34, 197, 94, 0.15);
+      color: var(--success);
+      border-radius: 0.25rem;
+      font-weight: 600;
+    }
+
+    .demo-card-meta {
+      font-size: 0.8125rem;
+      color: var(--text-dim);
+    }
+
+    /* How it Works */
+    .how-it-works {
+      padding: 6rem 2rem;
+    }
+
+    .how-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .steps {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .step {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 28px;
+      top: 60px;
+      bottom: -30px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--ruby), transparent);
+    }
+
+    .step-number {
+      width: 56px;
+      height: 56px;
+      min-width: 56px;
+      background: linear-gradient(135deg, var(--ruby), var(--primary));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: white;
+    }
+
+    .step-content {
+      flex: 1;
+      padding-top: 0.5rem;
+    }
+
+    .step-content h3 {
+      font-size: 1.375rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .step-content p {
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .step-code {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      padding: 1.25rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.875rem;
+      overflow-x: auto;
+    }
+
+    .step-code .comment { color: var(--text-dim); }
+    .step-code .keyword { color: #f472b6; }
+    .step-code .string { color: #4ade80; }
+
+    /* CTA */
+    .cta {
+      padding: 8rem 2rem;
+      text-align: center;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(ellipse at center, rgba(204, 52, 45, 0.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .cta-content {
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    .cta p {
+      font-size: 1.25rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
     }
 
     .install-box {
       display: inline-flex;
       align-items: center;
       gap: 1rem;
-      background: var(--bg-card);
+      background: var(--bg-dark);
       border: 1px solid var(--border);
       border-radius: 0.75rem;
       padding: 1rem 1.5rem;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.9375rem;
+      margin-top: 2rem;
     }
 
-    .install-box code {
-      color: var(--primary-light);
-    }
+    .install-box code { color: var(--ruby-light); }
 
     .copy-btn {
       background: none;
@@ -274,304 +835,10 @@
       color: var(--text);
     }
 
-    /* Features */
-    .features {
-      padding: 6rem 2rem;
-      background: var(--bg-card);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .section-header {
-      text-align: center;
-      max-width: 600px;
-      margin: 0 auto 4rem;
-    }
-
-    .section-header h2 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      letter-spacing: -0.025em;
-    }
-
-    .section-header p {
-      color: var(--text-muted);
-      font-size: 1.125rem;
-    }
-
-    .features-grid {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .feature-card {
-      background: var(--bg-dark);
-      border: 1px solid var(--border);
-      border-radius: 1rem;
-      padding: 2rem;
-      transition: all 0.3s;
-    }
-
-    .feature-card:hover {
-      border-color: var(--primary);
-      transform: translateY(-4px);
-    }
-
-    .feature-icon {
-      width: 48px;
-      height: 48px;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
-      border-radius: 0.75rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .feature-card h3 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 0.75rem;
-    }
-
-    .feature-card p {
-      color: var(--text-muted);
-      font-size: 0.9375rem;
-      line-height: 1.7;
-    }
-
-    /* Screenshot */
-    .screenshot-section {
-      padding: 6rem 2rem;
-    }
-
-    .screenshot-container {
-      max-width: 1100px;
-      margin: 0 auto;
-      position: relative;
-    }
-
-    .screenshot-wrapper {
-      background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
-      padding: 3px;
-      border-radius: 1rem;
-      box-shadow: 0 25px 80px rgba(99, 102, 241, 0.3);
-    }
-
-    .screenshot {
-      background: var(--bg-card);
-      border-radius: calc(1rem - 3px);
-      overflow: hidden;
-    }
-
-    .screenshot-header {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 1rem 1.25rem;
-      background: var(--bg-dark);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .screenshot-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-    }
-
-    .screenshot-dot.red { background: #ff5f57; }
-    .screenshot-dot.yellow { background: #febc2e; }
-    .screenshot-dot.green { background: #28c840; }
-
-    .screenshot-content {
-      padding: 2rem;
-      min-height: 400px;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .mock-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .mock-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-    }
-
-    .mock-badge {
-      padding: 0.375rem 0.75rem;
-      background: rgba(99, 102, 241, 0.15);
-      border-radius: 1rem;
-      font-size: 0.75rem;
-      color: var(--primary-light);
-    }
-
-    .mock-stats {
-      display: flex;
-      gap: 1rem;
-    }
-
-    .mock-stat {
-      flex: 1;
-      background: var(--bg-dark);
-      border: 1px solid var(--border);
-      border-radius: 0.75rem;
-      padding: 1.25rem;
-      text-align: center;
-    }
-
-    .mock-stat-value {
-      font-size: 2rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .mock-stat-label {
-      font-size: 0.75rem;
-      color: var(--text-dim);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .mock-cards {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-    }
-
-    .mock-card {
-      background: var(--bg-dark);
-      border: 1px solid var(--border);
-      border-radius: 0.75rem;
-      padding: 1rem;
-    }
-
-    .mock-card-title {
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      font-size: 0.875rem;
-    }
-
-    .mock-card-meta {
-      font-size: 0.75rem;
-      color: var(--text-dim);
-    }
-
-    /* How it works */
-    .how-it-works {
-      padding: 6rem 2rem;
-      background: var(--bg-card);
-      border-top: 1px solid var(--border);
-    }
-
-    .steps {
-      max-width: 800px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    .step {
-      display: flex;
-      gap: 1.5rem;
-      align-items: flex-start;
-    }
-
-    .step-number {
-      width: 48px;
-      height: 48px;
-      min-width: 48px;
-      background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 1.25rem;
-    }
-
-    .step-content h3 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-
-    .step-content p {
-      color: var(--text-muted);
-    }
-
-    .step-code {
-      margin-top: 1rem;
-      background: var(--bg-dark);
-      border: 1px solid var(--border);
-      border-radius: 0.5rem;
-      padding: 1rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.875rem;
-      overflow-x: auto;
-    }
-
-    .step-code .comment { color: var(--text-dim); }
-    .step-code .keyword { color: #f472b6; }
-    .step-code .string { color: #4ade80; }
-    .step-code .symbol { color: #60a5fa; }
-
-    /* CTA */
-    .cta {
-      padding: 8rem 2rem;
-      text-align: center;
-      position: relative;
-    }
-
-    .cta::before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 800px;
-      height: 400px;
-      background: radial-gradient(ellipse at center, rgba(139, 92, 246, 0.15) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .cta-content {
-      max-width: 600px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-    }
-
-    .cta h2 {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-
-    .cta p {
-      color: var(--text-muted);
-      font-size: 1.125rem;
-      margin-bottom: 2rem;
-    }
-
     /* Footer */
     .footer {
       padding: 3rem 2rem;
       border-top: 1px solid var(--border);
-      text-align: center;
     }
 
     .footer-content {
@@ -581,7 +848,7 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 1rem;
+      gap: 1.5rem;
     }
 
     .footer-links {
@@ -596,47 +863,65 @@
       transition: color 0.2s;
     }
 
-    .footer-links a:hover {
-      color: var(--text);
-    }
+    .footer-links a:hover { color: var(--text); }
 
     .footer-copy {
       color: var(--text-dim);
       font-size: 0.875rem;
     }
 
+    .footer-copy a {
+      color: var(--ruby-light);
+      text-decoration: none;
+    }
+
+    .footer-copy a:hover { text-decoration: underline; }
+
     /* Responsive */
+    @media (max-width: 968px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .hero-text { max-width: 100%; }
+
+      .hero-buttons, .hero-stats {
+        justify-content: center;
+      }
+
+      .hero-stat { text-align: center; }
+
+      .bridge-row { flex-direction: column; }
+
+      .demo-stats { grid-template-columns: 1fr; }
+
+      .demo-cards { grid-template-columns: 1fr; }
+    }
+
     @media (max-width: 768px) {
       .navbar-content {
         flex-direction: column;
         gap: 1rem;
       }
 
-      .nav-links {
-        gap: 1rem;
-      }
+      .nav-links { gap: 1rem; flex-wrap: wrap; justify-content: center; }
 
-      .hero {
-        padding: 6rem 1.5rem 3rem;
-      }
+      .hero { padding: 6rem 1.5rem 3rem; }
 
-      .mock-cards {
-        grid-template-columns: 1fr;
-      }
+      .step { flex-direction: column; text-align: center; }
 
-      .mock-stats {
-        flex-direction: column;
-      }
+      .step:not(:last-child)::after { display: none; }
 
-      .step {
-        flex-direction: column;
-        text-align: center;
-        align-items: center;
-      }
+      .step-number { margin: 0 auto; }
 
-      .footer-content {
-        flex-direction: column;
-      }
+      .pain-points { grid-template-columns: 1fr; }
+
+      .solution-grid { grid-template-columns: 1fr; }
+
+      .footer-content { flex-direction: column; text-align: center; }
+
+      .footer-links { flex-wrap: wrap; justify-content: center; }
     }
   </style>
 </head>
@@ -645,14 +930,15 @@
   <nav class="navbar">
     <div class="navbar-content">
       <a href="#" class="logo">
-        <div class="logo-icon">📚</div>
-        RailsDocGenerator
+        <img src="https://raw.githubusercontent.com/ArshdeepGrover/rails-map/main/docs/logo.png" alt="RailsMap" class="logo-img" onerror="this.style.display='none'">
+        <span class="logo-text">Rails<span>Map</span></span>
       </a>
       <div class="nav-links">
+        <a href="#problem">Why RailsMap</a>
         <a href="#features">Features</a>
-        <a href="#how-it-works">How it Works</a>
-        <a href="https://github.com/ArshdeepGrover/rails_doc_generator" target="_blank">GitHub</a>
-        <a href="https://rubygems.org/gems/rails_doc_generator" target="_blank" class="nav-btn">Install</a>
+        <a href="#how-it-works">Get Started</a>
+        <a href="https://github.com/ArshdeepGrover/rails-map" target="_blank">GitHub</a>
+        <a href="https://rubygems.org/gems/rails_map" target="_blank" class="nav-btn">Install Free</a>
       </div>
     </div>
   </nav>
@@ -660,128 +946,267 @@
   <!-- Hero -->
   <section class="hero">
     <div class="hero-content">
-      <div class="badge">
-        <span class="badge-dot"></span>
-        Now available for Rails 6+
-      </div>
-      <h1>
-        Beautiful API docs<br>
-        <span class="gradient-text">auto-generated</span> for Rails
-      </h1>
-      <p class="hero-description">
-        Automatically generate interactive, modern API documentation for your Ruby on Rails application. Zero configuration. Just install and go.
-      </p>
-      <div class="hero-buttons">
-        <a href="#how-it-works" class="btn btn-primary">
-          Get Started
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
-        </a>
-        <a href="https://github.com/ArshdeepGrover/rails_doc_generator" target="_blank" class="btn btn-secondary">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-          </svg>
-          View on GitHub
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Install -->
-  <section class="install-section">
-    <div class="install-box">
-      <code>gem install rails_doc_generator</code>
-      <button class="copy-btn" onclick="copyToClipboard('gem install rails_doc_generator')">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
-          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-        </svg>
-      </button>
-    </div>
-  </section>
-
-  <!-- Features -->
-  <section class="features" id="features">
-    <div class="section-header">
-      <h2>Everything you need</h2>
-      <p>Powerful features to document your Rails API without the hassle</p>
-    </div>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">⚡</div>
-        <h3>Zero Configuration</h3>
-        <p>Works out of the box. Just add the gem, run the generator, and you're done. No complex setup required.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🎨</div>
-        <h3>Modern Dark UI</h3>
-        <p>Beautiful, responsive interface with a modern dark theme. Customizable accent colors to match your brand.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🔍</div>
-        <h3>Smart Search</h3>
-        <p>Quickly find controllers, models, and routes with instant search. Filter and navigate with ease.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🛡️</div>
-        <h3>Built-in Authentication</h3>
-        <p>Secure your docs with built-in authentication. Only authorized users can access your API documentation.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📊</div>
-        <h3>Model Introspection</h3>
-        <p>Automatically documents your models including columns, associations, validations, and scopes.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🚀</div>
-        <h3>Route Discovery</h3>
-        <p>Parses all your routes and groups them by controller. Shows HTTP methods, paths, and constraints.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Screenshot -->
-  <section class="screenshot-section">
-    <div class="screenshot-container">
-      <div class="screenshot-wrapper">
-        <div class="screenshot">
-          <div class="screenshot-header">
-            <span class="screenshot-dot red"></span>
-            <span class="screenshot-dot yellow"></span>
-            <span class="screenshot-dot green"></span>
+      <div class="hero-text">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          Open Source · MIT License
+        </div>
+        <h1>
+          The <span class="highlight">missing bridge</span> between your backend & frontend team
+        </h1>
+        <p class="hero-description">
+          Stop wasting hours explaining your Rails API to frontend developers. RailsMap automatically maps your routes, controllers, and models into beautiful, interactive documentation that everyone can understand.
+        </p>
+        <div class="hero-buttons">
+          <a href="#how-it-works" class="btn btn-primary">
+            Get Started Free
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+          <a href="https://github.com/ArshdeepGrover/rails-map" target="_blank" class="btn btn-secondary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            Star on GitHub
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat">
+            <div class="hero-stat-value">Zero</div>
+            <div class="hero-stat-label">Configuration</div>
           </div>
-          <div class="screenshot-content">
-            <div class="mock-header">
-              <span class="mock-title">MyApp</span>
-              <span class="mock-badge">Auto-generated</span>
+          <div class="hero-stat">
+            <div class="hero-stat-value">30 sec</div>
+            <div class="hero-stat-label">Setup Time</div>
+          </div>
+          <div class="hero-stat">
+            <div class="hero-stat-value">100%</div>
+            <div class="hero-stat-label">Automatic</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="bridge-diagram">
+          <div class="bridge-row">
+            <div class="bridge-box backend">
+              <div class="bridge-icon">💎</div>
+              <div class="bridge-label">Backend</div>
+              <div class="bridge-title">Rails API</div>
             </div>
-            <div class="mock-stats">
-              <div class="mock-stat">
-                <div class="mock-stat-value">12</div>
-                <div class="mock-stat-label">Controllers</div>
+            <div class="bridge-connector">
+              <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
+                <path d="M0 12H40M32 4L40 12L32 20" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </div>
+            <div class="bridge-box center">
+              <div class="bridge-icon">🗺️</div>
+              <div class="bridge-label">Bridge</div>
+              <div class="bridge-title">RailsMap</div>
+            </div>
+            <div class="bridge-connector">
+              <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
+                <path d="M0 12H40M32 4L40 12L32 20" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </div>
+            <div class="bridge-box frontend">
+              <div class="bridge-icon">⚛️</div>
+              <div class="bridge-label">Frontend</div>
+              <div class="bridge-title">React / Vue</div>
+            </div>
+          </div>
+          <div class="bridge-items">
+            <div class="bridge-item">
+              <div class="bridge-item-icon">🛣️</div>
+              <div class="bridge-item-text">Routes</div>
+            </div>
+            <div class="bridge-item">
+              <div class="bridge-item-icon">🎮</div>
+              <div class="bridge-item-text">Controllers</div>
+            </div>
+            <div class="bridge-item">
+              <div class="bridge-item-icon">📊</div>
+              <div class="bridge-item-text">Models</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem Section -->
+  <section class="problem" id="problem">
+    <div class="problem-content">
+      <span class="section-label">The Problem</span>
+      <h2 class="section-title">Sound familiar?</h2>
+      <p class="section-description">
+        Every Rails developer knows the pain. Your backend is powerful, but getting the frontend team on the same page feels impossible.
+      </p>
+      <div class="pain-points">
+        <div class="pain-point">
+          <div class="pain-point-icon">😩</div>
+          <h3>"What endpoints do we have?"</h3>
+          <p>Frontend devs constantly asking about available routes, required params, and response formats. You spend more time explaining than coding.</p>
+        </div>
+        <div class="pain-point">
+          <div class="pain-point-icon">📝</div>
+          <h3>Documentation is always outdated</h3>
+          <p>You wrote docs once, then the API changed. Now nobody trusts them, and you're back to Slack messages and screen shares.</p>
+        </div>
+        <div class="pain-point">
+          <div class="pain-point-icon">🔄</div>
+          <h3>Constant context switching</h3>
+          <p>Every time someone needs API info, you have to stop what you're doing, dig through controllers, and piece together the answer.</p>
+        </div>
+        <div class="pain-point">
+          <div class="pain-point-icon">🤷</div>
+          <h3>"What columns does this model have?"</h3>
+          <p>New team members struggle to understand your data structure. They open migration files, check schemas, ask questions...</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Solution Section -->
+  <section class="solution" id="features">
+    <div class="solution-header">
+      <span class="section-label">The Solution</span>
+      <h2 class="section-title">RailsMap does the work for you</h2>
+      <p class="section-description">
+        Install once, forget forever. Your API documentation stays in sync automatically.
+      </p>
+    </div>
+    <div class="solution-grid">
+      <div class="solution-card">
+        <div class="solution-card-icon">🛣️</div>
+        <h3>Automatic Route Discovery</h3>
+        <p>Every route in your Rails app is automatically discovered and documented. HTTP methods, paths, constraints, and route names—all mapped instantly.</p>
+        <div class="solution-card-features">
+          <span class="solution-card-feature">GET / POST / PUT / DELETE</span>
+          <span class="solution-card-feature">Route Params</span>
+          <span class="solution-card-feature">Constraints</span>
+        </div>
+      </div>
+      <div class="solution-card">
+        <div class="solution-card-icon">📊</div>
+        <h3>Model Introspection</h3>
+        <p>Database columns, associations, validations, and scopes are extracted automatically. Your data structure, documented without writing a single line.</p>
+        <div class="solution-card-features">
+          <span class="solution-card-feature">Columns & Types</span>
+          <span class="solution-card-feature">Associations</span>
+          <span class="solution-card-feature">Validations</span>
+        </div>
+      </div>
+      <div class="solution-card">
+        <div class="solution-card-icon">🎨</div>
+        <h3>Beautiful Dark UI</h3>
+        <p>Modern, responsive interface that developers actually want to use. Searchable, filterable, and easy to navigate. Looks great on any device.</p>
+        <div class="solution-card-features">
+          <span class="solution-card-feature">Dark Theme</span>
+          <span class="solution-card-feature">Instant Search</span>
+          <span class="solution-card-feature">Responsive</span>
+        </div>
+      </div>
+      <div class="solution-card">
+        <div class="solution-card-icon">🔒</div>
+        <h3>Built-in Authentication</h3>
+        <p>Protect your documentation with built-in auth. No Devise required—just create users and you're secure. Perfect for production.</p>
+        <div class="solution-card-features">
+          <span class="solution-card-feature">No Dependencies</span>
+          <span class="solution-card-feature">HTTP Basic</span>
+          <span class="solution-card-feature">Custom Auth</span>
+        </div>
+      </div>
+      <div class="solution-card">
+        <div class="solution-card-icon">⚡</div>
+        <h3>Zero Configuration</h3>
+        <p>Run one command. That's it. No config files, no annotations, no comments. RailsMap reads your code and generates docs automatically.</p>
+        <div class="solution-card-features">
+          <span class="solution-card-feature">One Command</span>
+          <span class="solution-card-feature">Auto-mount</span>
+          <span class="solution-card-feature">Works Instantly</span>
+        </div>
+      </div>
+      <div class="solution-card">
+        <div class="solution-card-icon">🔄</div>
+        <h3>Always In Sync</h3>
+        <p>Add a route? It's documented. Change a model? Updated automatically. Your docs are always current because they come from your actual code.</p>
+        <div class="solution-card-features">
+          <span class="solution-card-feature">Live Updates</span>
+          <span class="solution-card-feature">No Manual Work</span>
+          <span class="solution-card-feature">Always Accurate</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo Section -->
+  <section class="demo">
+    <div class="demo-header">
+      <span class="section-label">Live Preview</span>
+      <h2 class="section-title">See what your team will see</h2>
+      <p class="section-description">
+        A clean, organized view of your entire Rails API. No more digging through code.
+      </p>
+    </div>
+    <div class="demo-container">
+      <div class="demo-window">
+        <div class="demo-window-inner">
+          <div class="demo-header-bar">
+            <span class="demo-dot red"></span>
+            <span class="demo-dot yellow"></span>
+            <span class="demo-dot green"></span>
+            <span class="demo-url">localhost:3000/api-doc</span>
+          </div>
+          <div class="demo-content">
+            <div class="demo-nav">
+              <span class="demo-nav-item active">Dashboard</span>
+              <span class="demo-nav-item">Routes</span>
+              <span class="demo-nav-item">Models</span>
+            </div>
+            <div class="demo-stats">
+              <div class="demo-stat">
+                <div class="demo-stat-value">15</div>
+                <div class="demo-stat-label">Controllers</div>
               </div>
-              <div class="mock-stat">
-                <div class="mock-stat-value">48</div>
-                <div class="mock-stat-label">Routes</div>
+              <div class="demo-stat">
+                <div class="demo-stat-value">67</div>
+                <div class="demo-stat-label">Routes</div>
               </div>
-              <div class="mock-stat">
-                <div class="mock-stat-value">8</div>
-                <div class="mock-stat-label">Models</div>
+              <div class="demo-stat">
+                <div class="demo-stat-value">12</div>
+                <div class="demo-stat-label">Models</div>
               </div>
             </div>
-            <div class="mock-cards">
-              <div class="mock-card">
-                <div class="mock-card-title">UsersController</div>
-                <div class="mock-card-meta">7 routes · /api/users</div>
+            <div class="demo-cards">
+              <div class="demo-card">
+                <div class="demo-card-header">
+                  <span class="demo-card-title">Api::V1::UsersController</span>
+                  <span class="demo-card-badge">7 routes</span>
+                </div>
+                <div class="demo-card-meta">/api/v1/users · index, show, create, update, destroy</div>
               </div>
-              <div class="mock-card">
-                <div class="mock-card-title">PostsController</div>
-                <div class="mock-card-meta">5 routes · /api/posts</div>
+              <div class="demo-card">
+                <div class="demo-card-header">
+                  <span class="demo-card-title">Api::V1::PostsController</span>
+                  <span class="demo-card-badge">5 routes</span>
+                </div>
+                <div class="demo-card-meta">/api/v1/posts · index, show, create, update, destroy</div>
               </div>
-              <div class="mock-card">
-                <div class="mock-card-title">CommentsController</div>
-                <div class="mock-card-meta">4 routes · /api/comments</div>
+              <div class="demo-card">
+                <div class="demo-card-header">
+                  <span class="demo-card-title">User</span>
+                  <span class="demo-card-badge">8 columns</span>
+                </div>
+                <div class="demo-card-meta">has_many :posts, has_many :comments</div>
+              </div>
+              <div class="demo-card">
+                <div class="demo-card-header">
+                  <span class="demo-card-title">Post</span>
+                  <span class="demo-card-badge">6 columns</span>
+                </div>
+                <div class="demo-card-meta">belongs_to :user, has_many :comments</div>
               </div>
             </div>
           </div>
@@ -790,31 +1215,36 @@
     </div>
   </section>
 
-  <!-- How it works -->
+  <!-- How it Works -->
   <section class="how-it-works" id="how-it-works">
-    <div class="section-header">
-      <h2>Get started in minutes</h2>
-      <p>Three simple steps to beautiful documentation</p>
+    <div class="how-header">
+      <span class="section-label">Get Started</span>
+      <h2 class="section-title">Up and running in 30 seconds</h2>
+      <p class="section-description">
+        Seriously. Three commands and you're done.
+      </p>
     </div>
     <div class="steps">
       <div class="step">
         <div class="step-number">1</div>
         <div class="step-content">
-          <h3>Add the gem</h3>
-          <p>Add RailsDocGenerator to your Gemfile and run bundle install.</p>
+          <h3>Add RailsMap to your Gemfile</h3>
+          <p>Just one line. That's all you need to add.</p>
           <div class="step-code">
             <span class="comment"># Gemfile</span><br>
-            <span class="keyword">gem</span> <span class="string">'rails_doc_generator'</span>
+            <span class="keyword">gem</span> <span class="string">'rails_map'</span>
           </div>
         </div>
       </div>
       <div class="step">
         <div class="step-number">2</div>
         <div class="step-content">
-          <h3>Run the generator</h3>
-          <p>Run the install generator to create the initializer and mount the engine.</p>
+          <h3>Run the install generator</h3>
+          <p>This mounts the engine and creates the config. Authentication is enabled by default.</p>
           <div class="step-code">
-            $ rails generate rails_doc_generator:install
+            $ bundle install<br>
+            $ rails generate rails_map:install<br>
+            $ rails db:migrate
           </div>
         </div>
       </div>
@@ -822,10 +1252,10 @@
         <div class="step-number">3</div>
         <div class="step-content">
           <h3>Visit your docs</h3>
-          <p>Start your server and visit the documentation URL. That's it!</p>
+          <p>Start your server and open the documentation URL. Your entire API, documented.</p>
           <div class="step-code">
             $ rails server<br>
-            <span class="comment"># Visit http://localhost:3000/api-doc</span>
+            <span class="comment"># Open http://localhost:3000/api-doc</span>
           </div>
         </div>
       </div>
@@ -835,14 +1265,30 @@
   <!-- CTA -->
   <section class="cta">
     <div class="cta-content">
-      <h2>Ready to document your API?</h2>
-      <p>Join developers who use RailsDocGenerator to create beautiful, auto-generated documentation for their Rails apps.</p>
-      <a href="https://rubygems.org/gems/rails_doc_generator" target="_blank" class="btn btn-primary">
-        Install Now — It's Free
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M5 12h14M12 5l7 7-7 7"/>
-        </svg>
-      </a>
+      <h2>Stop explaining. Start shipping.</h2>
+      <p>
+        Give your team the documentation they need. Install RailsMap today and bridge the gap between backend and frontend—permanently.
+      </p>
+      <div class="cta-buttons">
+        <a href="https://rubygems.org/gems/rails_map" target="_blank" class="btn btn-primary">
+          Install RailsMap Free
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="https://github.com/ArshdeepGrover/rails-map" target="_blank" class="btn btn-secondary">
+          View on GitHub
+        </a>
+      </div>
+      <div class="install-box">
+        <code>gem install rails_map</code>
+        <button class="copy-btn" onclick="copyToClipboard('gem install rails_map')">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          </svg>
+        </button>
+      </div>
     </div>
   </section>
 
@@ -850,12 +1296,13 @@
   <footer class="footer">
     <div class="footer-content">
       <div class="footer-links">
-        <a href="https://github.com/ArshdeepGrover/rails_doc_generator" target="_blank">GitHub</a>
-        <a href="https://rubygems.org/gems/rails_doc_generator" target="_blank">RubyGems</a>
-        <a href="https://github.com/ArshdeepGrover/rails_doc_generator/issues" target="_blank">Issues</a>
+        <a href="https://github.com/ArshdeepGrover/rails-map" target="_blank">GitHub</a>
+        <a href="https://rubygems.org/gems/rails_map" target="_blank">RubyGems</a>
+        <a href="https://github.com/ArshdeepGrover/rails-map/issues" target="_blank">Issues</a>
+        <a href="https://github.com/ArshdeepGrover/rails-map/blob/main/CHANGELOG.md" target="_blank">Changelog</a>
       </div>
       <div class="footer-copy">
-        Developed & maintained with ❤️ by <a href="https://www.arshdeepsingh.info?utm_source=rails_doc_generator&utm_medium=footer&utm_campaign=developer_credit&utm_content=landing_page" target="_blank" style="color: var(--primary-light);">Arshdeep Singh</a>
+        Built with ❤️ by <a href="https://www.arshdeepsingh.info?utm_source=rails_map&utm_medium=footer&utm_campaign=developer_credit&utm_content=landing_page" target="_blank">Arshdeep Singh</a>
       </div>
     </div>
   </footer>
@@ -865,7 +1312,7 @@
       navigator.clipboard.writeText(text).then(() => {
         const btn = document.querySelector('.copy-btn');
         btn.innerHTML = `
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2">
             <polyline points="20 6 9 17 4 12"/>
           </svg>
         `;
@@ -880,7 +1327,7 @@
       });
     }
 
-    // Smooth scroll for anchor links
+    // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function(e) {
         e.preventDefault();
@@ -889,6 +1336,16 @@
           target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
       });
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.style.background = 'rgba(9, 9, 11, 0.95)';
+      } else {
+        navbar.style.background = 'rgba(9, 9, 11, 0.9)';
+      }
     });
   </script>
 </body>

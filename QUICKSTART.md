@@ -1,13 +1,13 @@
 # Quick Start Guide
 
-Get up and running with RailsDocGenerator in under 5 minutes!
+Get up and running with RailsMap in under 5 minutes!
 
 ## Installation
 
 Add to your `Gemfile`:
 
 ```ruby
-gem 'rails_doc_generator'
+gem 'rails_map'
 ```
 
 Then run:
@@ -22,12 +22,12 @@ bundle install
 
 1. Run the generator:
 ```bash
-rails g rails_doc_generator:install
+rails g rails_map:install
 rails db:migrate
 ```
 
 This automatically:
-- ✅ Creates `config/initializers/rails_doc_generator.rb` with auth enabled
+- ✅ Creates `config/initializers/rails_map.rb` with auth enabled
 - ✅ Mounts the engine in `config/routes.rb`
 - ✅ Creates user migration
 - ✅ Adds `/doc/api` to `.gitignore`
@@ -35,7 +35,7 @@ This automatically:
 2. Create an admin user:
 ```bash
 rails c
-RailsDocGenerator::User.create!(username: 'admin', password: 'your_secure_password')
+RailsMap::User.create!(username: 'admin', password: 'your_secure_password')
 exit
 ```
 
@@ -54,7 +54,7 @@ rails s
 
 1. Run the generator with --skip-auth flag:
 ```bash
-rails g rails_doc_generator:install --skip-auth
+rails g rails_map:install --skip-auth
 ```
 
 2. Start your server:
@@ -72,7 +72,7 @@ rails s
 
 ### Change Theme Color
 
-In `config/initializers/rails_doc_generator.rb`:
+In `config/initializers/rails_map.rb`:
 
 ```ruby
 config.theme_color = '#FF6B6B'  # Any valid CSS color
@@ -94,23 +94,23 @@ config.include_timestamps = false
 
 ### Create User
 ```ruby
-RailsDocGenerator::User.create!(username: 'developer', password: 'password123')
+RailsMap::User.create!(username: 'developer', password: 'password123')
 ```
 
 ### Change Password
 ```ruby
-user = RailsDocGenerator::User.find_by(username: 'developer')
+user = RailsMap::User.find_by(username: 'developer')
 user.update!(password: 'new_password')
 ```
 
 ### Delete User
 ```ruby
-RailsDocGenerator::User.find_by(username: 'developer').destroy
+RailsMap::User.find_by(username: 'developer').destroy
 ```
 
 ### List All Users
 ```ruby
-RailsDocGenerator::User.all.pluck(:username)
+RailsMap::User.all.pluck(:username)
 ```
 
 ## Static HTML Generation (Optional)
@@ -151,4 +151,4 @@ Files are generated in `doc/api/` by default.
 
 - Check the [README.md](README.md) for detailed documentation
 - Review [AUTHENTICATION.md](AUTHENTICATION.md) for authentication setup
-- Open an issue on GitHub
+- Open an issue on [GitHub](https://github.com/ArshdeepGrover/rails-map/issues)

@@ -3,14 +3,14 @@
 require 'rails/generators'
 require 'rails/generators/migration'
 
-module RailsDocGenerator
+module RailsMap
   module Generators
     class InstallGenerator < Rails::Generators::Base
       include Rails::Generators::Migration
       
       source_root File.expand_path('templates', __dir__)
       
-      desc "Installs RailsDocGenerator with built-in authentication (use --skip-auth to disable)"
+      desc "Installs RailsMap with built-in authentication (use --skip-auth to disable)"
       
       class_option :skip_auth, type: :boolean, default: false, desc: "Skip built-in authentication setup"
       class_option :skip_routes, type: :boolean, default: false, desc: "Skip adding route mount"
@@ -20,18 +20,18 @@ module RailsDocGenerator
       end
       
       def copy_initializer
-        template 'initializer.rb', 'config/initializers/rails_doc_generator.rb'
+        template 'initializer.rb', 'config/initializers/rails_map.rb'
       end
       
       def create_migration_file
         unless options[:skip_auth]
-          migration_template 'migration.rb', 'db/migrate/create_rails_doc_generator_users.rb'
+          migration_template 'migration.rb', 'db/migrate/create_rails_map_users.rb'
         end
       end
       
       def add_route_mount
         unless options[:skip_routes]
-          route "mount RailsDocGenerator::Engine, at: '/api-doc'"
+          route "mount RailsMap::Engine, at: '/api-doc'"
         end
       end
       

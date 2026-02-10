@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-module RailsDocGenerator
+module RailsMap
   class User < ApplicationRecord
-    self.table_name = 'rails_doc_generator_users'
+    self.table_name = 'rails_map_users'
     
     has_secure_password
     

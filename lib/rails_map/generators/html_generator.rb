@@ -3,7 +3,7 @@
 require "erb"
 require "fileutils"
 
-module RailsDocGenerator
+module RailsMap
   module Generators
     class HtmlGenerator
       attr_reader :routes, :models, :output_dir
@@ -69,8 +69,8 @@ module RailsDocGenerator
       end
 
       def binding_for_layout(title, content)
-        app_name = RailsDocGenerator.configuration.app_name
-        theme_color = RailsDocGenerator.configuration.theme_color
+        app_name = RailsMap.configuration.app_name
+        theme_color = RailsMap.configuration.theme_color
         binding
       end
 

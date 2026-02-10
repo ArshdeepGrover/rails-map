@@ -9,15 +9,15 @@ This guide shows you how to protect your Rails documentation with authentication
 In your `config/routes.rb`:
 
 ```ruby
-mount RailsDocGenerator::Engine, at: '/api-doc'
+mount RailsMap::Engine, at: '/api-doc'
 ```
 
 ### 2. Create Configuration File
 
-Create `config/initializers/rails_doc_generator.rb` in your Rails application:
+Create `config/initializers/rails_map.rb` in your Rails application:
 
 ```ruby
-RailsDocGenerator.configure do |config|
+RailsMap.configure do |config|
   config.app_name = 'Your App Name'
   config.theme_color = '#3B82F6'
   
@@ -38,21 +38,21 @@ If you don't use Devise, use the built-in authentication system.
 
 1. Install with authentication:
 ```bash
-rails g rails_doc_generator:install --with-auth
+rails g rails_map:install
 rails db:migrate
 ```
 
 2. Create admin user(s):
 ```bash
 rails c
-RailsDocGenerator::User.create!(username: 'admin', password: 'your_secure_password')
-RailsDocGenerator::User.create!(username: 'developer', password: 'another_password')
+RailsMap::User.create!(username: 'admin', password: 'your_secure_password')
+RailsMap::User.create!(username: 'developer', password: 'another_password')
 ```
 
 3. Enable in configuration:
 ```ruby
 config.authenticate_with = proc {
-  RailsDocGenerator::Auth.authenticate(self)
+  RailsMap::Auth.authenticate(self)
 }
 ```
 
@@ -62,17 +62,17 @@ config.authenticate_with = proc {
 
 ```ruby
 # Create user
-RailsDocGenerator::User.create!(username: 'john', password: 'password123')
+RailsMap::User.create!(username: 'john', password: 'password123')
 
 # Update password
-user = RailsDocGenerator::User.find_by(username: 'john')
+user = RailsMap::User.find_by(username: 'john')
 user.update!(password: 'new_password')
 
 # Delete user
-RailsDocGenerator::User.find_by(username: 'john').destroy
+RailsMap::User.find_by(username: 'john').destroy
 
 # List all users
-RailsDocGenerator::User.all.pluck(:username)
+RailsMap::User.all.pluck(:username)
 ```
 
 ### Option 2: Devise Authentication

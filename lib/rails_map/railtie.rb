@@ -2,21 +2,21 @@
 
 require "rails/railtie"
 
-module RailsDocGenerator
+module RailsMap
   class Railtie < Rails::Railtie
-    railtie_name :rails_doc_generator
+    railtie_name :rails_map
 
     rake_tasks do
       namespace :doc do
         desc "Generate HTML documentation for routes and models"
         task generate: :environment do
           puts "Generating documentation..."
-          RailsDocGenerator.generate
+          RailsMap.generate
         end
 
         desc "Generate documentation and open in browser"
         task open: :generate do
-          index_path = File.join(RailsDocGenerator.configuration.output_dir, "index.html")
+          index_path = File.join(RailsMap.configuration.output_dir, "index.html")
           
           if File.exist?(index_path)
             system("open", index_path) || system("xdg-open", index_path) || system("start", index_path)
@@ -27,7 +27,7 @@ module RailsDocGenerator
 
         desc "Clean generated documentation"
         task clean: :environment do
-          output_dir = RailsDocGenerator.configuration.output_dir
+          output_dir = RailsMap.configuration.output_dir
           if Dir.exist?(output_dir)
             FileUtils.rm_rf(output_dir)
             puts "Removed documentation at #{output_dir}"
@@ -39,8 +39,8 @@ module RailsDocGenerator
     end
 
     # Allow configuration via Rails initializer
-    initializer "rails_doc_generator.configure" do
-      # Configuration can be done in config/initializers/rails_doc_generator.rb
+    initializer "rails_map.configure" do
+      # Configuration can be done in config/initializers/rails_map.rb
     end
   end
 end

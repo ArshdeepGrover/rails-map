@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require_relative "lib/rails_doc_generator/version"
+require_relative "lib/rails_map/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "rails_doc_generator"
-  spec.version       = RailsDocGenerator::VERSION
+  spec.name          = "rails_map"
+  spec.version       = RailsMap::VERSION
   spec.authors       = ["Arshdeep Singh"]
   spec.email         = ["arsh199820@gmail.com"]
 
-  spec.summary       = "Generate HTML documentation for Rails routes, controllers, and models"
-  spec.description   = "A Ruby gem that automatically generates beautiful HTML documentation pages for your Rails application, including routes grouped by controller and model details with columns and associations."
-  spec.homepage      = "https://github.com/arshdeep/rails_doc_generator"
+  spec.summary       = "Generate interactive API documentation for Rails routes, controllers, and models"
+  spec.description   = "Automatically generates interactive API documentation for Rails by mapping routes, controllers, and models. Zero configuration—just install and go."
+  spec.homepage      = "https://github.com/ArshdeepGrover/rails-map"
   spec.license       = "MIT"
   spec.required_ruby_version = ">= 2.7.0"
 

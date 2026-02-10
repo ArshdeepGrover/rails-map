@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RailsDocGenerator::Engine.routes.draw do
+RailsMap::Engine.routes.draw do
   root to: "docs#index"
   
   get "routes", to: "docs#routes", as: :routes

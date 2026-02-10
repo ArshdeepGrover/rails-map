@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module RailsDocGenerator
+module RailsMap
   class DocsController < ActionController::Base
     layout false
     before_action :load_configuration
@@ -11,8 +11,8 @@ module RailsDocGenerator
       @models = Parsers::ModelParser.new.parse
       
       # Debug logging
-      Rails.logger.info "RailsDocGenerator: Found #{@routes&.size || 0} controllers"
-      Rails.logger.info "RailsDocGenerator: Found #{@models&.size || 0} models"
+      Rails.logger.info "RailsMap: Found #{@routes&.size || 0} controllers"
+      Rails.logger.info "RailsMap: Found #{@models&.size || 0} models"
       
       # Ensure we always have a hash, never nil
       @routes ||= {}
@@ -20,7 +20,7 @@ module RailsDocGenerator
     rescue => e
       @routes = {}
       @models = {}
-      Rails.logger.error "RailsDocGenerator Error: #{e.message}"
+      Rails.logger.error "RailsMap Error: #{e.message}"
       Rails.logger.error e.backtrace.join("\n")
     end
 
@@ -29,7 +29,7 @@ module RailsDocGenerator
       @routes ||= {}
     rescue => e
       @routes = {}
-      Rails.logger.error "RailsDocGenerator Error: #{e.message}"
+      Rails.logger.error "RailsMap Error: #{e.message}"
       Rails.logger.error e.backtrace.join("\n")
     end
 
@@ -60,7 +60,7 @@ module RailsDocGenerator
     private
 
     def load_configuration
-      @config = RailsDocGenerator.configuration
+      @config = RailsMap.configuration
     end
 
     def authenticate_access!

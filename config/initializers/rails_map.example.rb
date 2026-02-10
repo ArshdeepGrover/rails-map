@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-# Example configuration for RailsDocGenerator
-# Copy this file to your Rails application's config/initializers/rails_doc_generator.rb
+# Example configuration for RailsMap
+# Copy this file to your Rails application's config/initializers/rails_map.rb
 
-RailsDocGenerator.configure do |config|
+RailsMap.configure do |config|
   # Application name displayed in the documentation
   config.app_name = 'My Application'
   

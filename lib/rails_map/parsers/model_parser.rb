@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module RailsDocGenerator
+module RailsMap
   module Parsers
     class ModelParser
       ColumnInfo = Struct.new(
@@ -144,7 +144,7 @@ module RailsDocGenerator
       end
 
       def parse_validations(model)
-        return [] unless RailsDocGenerator.configuration.include_validations
+        return [] unless RailsMap.configuration.include_validations
 
         model.validators.flat_map do |validator|
           validator.attributes.map do |attr|
@@ -167,7 +167,7 @@ module RailsDocGenerator
       end
 
       def parse_scopes(model)
-        return [] unless RailsDocGenerator.configuration.include_scopes
+        return [] unless RailsMap.configuration.include_scopes
 
         scope_names = model.methods.grep(/^_scope_/).map { |m| m.to_s.sub("_scope_", "") }
 
@@ -212,7 +212,7 @@ module RailsDocGenerator
         
         # Exclude models from gems/engines by namespace
         excluded_namespaces = %w[
-          RailsDocGenerator
+          RailsMap
           ActionMailbox
           ActionText
           ActiveStorage

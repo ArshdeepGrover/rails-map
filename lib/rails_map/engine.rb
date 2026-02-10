@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-module RailsDocGenerator
+module RailsMap
   class Engine < ::Rails::Engine
-    isolate_namespace RailsDocGenerator
+    isolate_namespace RailsMap
 
-    initializer "rails_doc_generator.assets" do |app|
+    initializer "rails_map.assets" do |app|
       # No external assets needed - CSS is inline
     end
   end

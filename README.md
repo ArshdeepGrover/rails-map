@@ -1,6 +1,6 @@
-# Rails Doc Generator
+# Rails Map
 
-A Ruby gem that automatically generates beautiful HTML documentation pages for your Rails application, including:
+Automatically generates interactive API documentation for Rails by mapping routes, controllers, and models. Zero configuration—just install and go.
 
 - **Routes** - All routes grouped by controller with HTTP methods, paths, and route names
 - **Controllers** - Separate page for each controller with detailed route information
@@ -11,7 +11,7 @@ A Ruby gem that automatically generates beautiful HTML documentation pages for y
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'rails_doc_generator'
+gem 'rails_map'
 ```
 
 And then execute:
@@ -25,7 +25,7 @@ bundle install
 Run the installer:
 
 ```bash
-rails g rails_doc_generator:install
+rails g rails_map:install
 rails db:migrate
 ```
 
@@ -33,11 +33,11 @@ Create an admin user:
 
 ```bash
 rails c
-RailsDocGenerator::User.create!(username: 'admin', password: 'your_secure_password')
+RailsMap::User.create!(username: 'admin', password: 'your_secure_password')
 ```
 
 This automatically:
-- ✅ Creates `config/initializers/rails_doc_generator.rb` with authentication enabled
+- ✅ Creates `config/initializers/rails_map.rb` with authentication enabled
 - ✅ Mounts the engine at `/api-doc`
 - ✅ Creates migration for users table
 - ✅ Adds `/doc/api` to `.gitignore`
@@ -49,7 +49,7 @@ Start your server and visit `http://localhost:3000/api-doc` - you'll be prompted
 If you don't want authentication (development only recommended):
 
 ```bash
-rails g rails_doc_generator:install --skip-auth
+rails g rails_map:install --skip-auth
 ```
 
 This will:
@@ -67,7 +67,7 @@ Start your server and visit `/api-doc` - no login required!
 Mount the engine in your `config/routes.rb`:
 
 ```ruby
-mount RailsDocGenerator::Engine, at: '/api-doc'
+mount RailsMap::Engine, at: '/api-doc'
 ```
 
 Then visit `http://localhost:3000/api-doc` in your browser to see live documentation.
@@ -96,10 +96,10 @@ rails doc:clean
 
 ## Configuration
 
-Create an initializer `config/initializers/rails_doc_generator.rb`:
+Create an initializer `config/initializers/rails_map.rb`:
 
 ```ruby
-RailsDocGenerator.configure do |config|
+RailsMap.configure do |config|
   # Output directory for generated documentation
   config.output_dir = Rails.root.join('doc', 'api').to_s
   
@@ -119,12 +119,10 @@ RailsDocGenerator.configure do |config|
   config.include_scopes = true
   
   # Authentication (optional) - Protect documentation with authentication
-  # This block will be executed in the controller context
   
   # Option 1: Built-in authentication (recommended if not using Devise)
-  # Requires: rails g rails_doc_generator:install --with-auth
   config.authenticate_with = proc {
-    RailsDocGenerator::Auth.authenticate(self)
+    RailsMap::Auth.authenticate(self)
   }
   
   # Option 2: Devise
@@ -146,44 +144,6 @@ RailsDocGenerator.configure do |config|
 end
 ```
 
-## Generated Documentation
-
-The gem generates the following HTML pages:
-
-### Index Page (`index.html`)
-- Overview with statistics (number of controllers, routes, models)
-- Quick links to all controllers
-- Quick links to all models
-
-### Routes Page (`routes.html`)
-- Complete list of all routes
-- HTTP method badges (GET, POST, PUT, PATCH, DELETE)
-- Path patterns with parameters highlighted
-- Controller#Action links
-- Route names
-
-### Controller Pages (`controllers/<name>.html`)
-- All routes for the specific controller
-- Actions list
-- Route constraints
-- Default parameters
-
-### Model Pages (`models/<name>.html`)
-- Table name and primary key
-- All columns with:
-  - Column name
-  - Data type
-  - Nullable status
-  - Default value
-  - Additional details (limit, precision, scale)
-- All associations with:
-  - Association type (belongs_to, has_many, has_one, has_and_belongs_to_many)
-  - Related model (with links)
-  - Foreign key
-  - Options (dependent, through, polymorphic, etc.)
-- Validations (if enabled)
-- Scopes (if enabled)
-
 ## Features
 
 - 📱 **Responsive Design** - Works on desktop and mobile
@@ -193,24 +153,6 @@ The gem generates the following HTML pages:
 - 📊 **Statistics Dashboard** - Quick overview of your application structure
 - 🔍 **Association Type Badges** - Visual distinction for different association types
 
-## Example Output
-
-The generated documentation looks like this:
-
-```
-doc/api/
-├── index.html              # Main dashboard
-├── routes.html             # All routes
-├── controllers/
-│   ├── users.html          # UsersController routes
-│   ├── posts.html          # PostsController routes
-│   └── ...
-└── models/
-    ├── user.html           # User model details
-    ├── post.html           # Post model details
-    └── ...
-```
-
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests.
@@ -219,7 +161,7 @@ To install this gem onto your local machine, run `bundle exec rake install`.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub.
+Bug reports and pull requests are welcome on GitHub at https://github.com/ArshdeepGrover/rails-map.
 
 ## License
 

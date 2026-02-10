@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module RailsDocGenerator
+module RailsMap
   class Configuration
     attr_accessor :output_dir, :app_name, :include_timestamps, :include_validations,
                   :include_scopes, :theme_color, :authenticate_with

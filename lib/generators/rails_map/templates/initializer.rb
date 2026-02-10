@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RailsDocGenerator.configure do |config|
+RailsMap.configure do |config|
   # Application name displayed in the documentation
   config.app_name = '<%= Rails.application.class.module_parent_name %>'
   
@@ -29,15 +29,15 @@ RailsDocGenerator.configure do |config|
   # Strategy 1: Built-in authentication (ENABLED by default)
   # To use: run migrations and create a user:
   #   rails db:migrate
-  #   RailsDocGenerator::User.create!(username: 'admin', password: 'your_secure_password')
+  #   RailsMap::User.create!(username: 'admin', password: 'your_secure_password')
   config.authenticate_with = proc {
-    RailsDocGenerator::Auth.authenticate(self)
+    RailsMap::Auth.authenticate(self)
   }
 <% else %>
   # Strategy 1: Built-in authentication (DISABLED via --skip-auth)
-  # To enable: run `rails g rails_doc_generator:install` (without --skip-auth)
+  # To enable: run `rails g rails_map:install` (without --skip-auth)
   # config.authenticate_with = proc {
-  #   RailsDocGenerator::Auth.authenticate(self)
+  #   RailsMap::Auth.authenticate(self)
   # }
 <% end %>
   
