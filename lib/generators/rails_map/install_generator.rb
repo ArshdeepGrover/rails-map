@@ -10,23 +10,13 @@ module RailsMap
       
       source_root File.expand_path('templates', __dir__)
       
-      desc "Installs RailsMap with built-in authentication (use --skip-auth to disable)"
+      desc "Installs RailsMap with environment-based authentication (use --skip-auth to disable)"
       
-      class_option :skip_auth, type: :boolean, default: false, desc: "Skip built-in authentication setup"
+      class_option :skip_auth, type: :boolean, default: false, desc: "Skip authentication setup"
       class_option :skip_routes, type: :boolean, default: false, desc: "Skip adding route mount"
-      
-      def self.next_migration_number(path)
-        Time.now.utc.strftime("%Y%m%d%H%M%S")
-      end
       
       def copy_initializer
         template 'initializer.rb', 'config/initializers/rails_map.rb'
-      end
-      
-      def create_migration_file
-        unless options[:skip_auth]
-          migration_template 'migration.rb', 'db/migrate/create_rails_map_users.rb'
-        end
       end
       
       def add_route_mount

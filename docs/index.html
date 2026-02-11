@@ -1013,7 +1013,7 @@
             <div class="bridge-box frontend">
               <div class="bridge-icon">⚛️</div>
               <div class="bridge-label">Frontend</div>
-              <div class="bridge-title">React / Vue</div>
+              <div class="bridge-title">React / Angular</div>
             </div>
           </div>
           <div class="bridge-items">
@@ -1110,12 +1110,12 @@
       </div>
       <div class="solution-card">
         <div class="solution-card-icon">🔒</div>
-        <h3>Built-in Authentication</h3>
-        <p>Protect your documentation with built-in auth. No Devise required—just create users and you're secure. Perfect for production.</p>
+        <h3>Environment-Based Auth</h3>
+        <p>Secure by default with environment variables. No database, no migrations—just set RAILS_MAP_USERNAME and RAILS_MAP_PASSWORD. Defaults to admin/password.</p>
         <div class="solution-card-features">
-          <span class="solution-card-feature">No Dependencies</span>
-          <span class="solution-card-feature">HTTP Basic</span>
-          <span class="solution-card-feature">Custom Auth</span>
+          <span class="solution-card-feature">No Database</span>
+          <span class="solution-card-feature">ENV Variables</span>
+          <span class="solution-card-feature">Default Credentials</span>
         </div>
       </div>
       <div class="solution-card">
@@ -1240,11 +1240,12 @@
         <div class="step-number">2</div>
         <div class="step-content">
           <h3>Run the install generator</h3>
-          <p>This mounts the engine and creates the config. Authentication is enabled by default.</p>
+          <p>This mounts the engine and creates the config. Set environment variables to customize credentials (defaults: admin/password).</p>
           <div class="step-code">
             $ bundle install<br>
             $ rails generate rails_map:install<br>
-            $ rails db:migrate
+            <span class="comment"># Optional: export RAILS_MAP_USERNAME=your_user</span><br>
+            <span class="comment"># Optional: export RAILS_MAP_PASSWORD=your_pass</span>
           </div>
         </div>
       </div>
@@ -1252,10 +1253,11 @@
         <div class="step-number">3</div>
         <div class="step-content">
           <h3>Visit your docs</h3>
-          <p>Start your server and open the documentation URL. Your entire API, documented.</p>
+          <p>Start your server and open the documentation URL. Login with default credentials: <strong>admin/password</strong></p>
           <div class="step-code">
             $ rails server<br>
-            <span class="comment"># Open http://localhost:3000/api-doc</span>
+            <span class="comment"># Open http://localhost:3000/api-doc</span><br>
+            <span class="comment"># Default: username=admin, password=password</span>
           </div>
         </div>
       </div>

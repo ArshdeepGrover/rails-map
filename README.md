@@ -1,5 +1,7 @@
 # Rails Map
 
+🌐 **[Homepage](https://rails-map.netlify.app)** | 📦 **[RubyGems](https://rubygems.org/gems/rails_map)** | 🐙 **[GitHub](https://github.com/ArshdeepGrover/rails-map)**
+
 Automatically generates interactive API documentation for Rails by mapping routes, controllers, and models. Zero configuration—just install and go.
 
 - **Routes** - All routes grouped by controller with HTTP methods, paths, and route names
@@ -26,21 +28,27 @@ Run the installer:
 
 ```bash
 rails g rails_map:install
-rails db:migrate
 ```
 
-Create an admin user:
+Set environment variables (optional):
 
 ```bash
-rails c
-RailsMap::User.create!(username: 'admin', password: 'your_secure_password')
+export RAILS_MAP_USERNAME=admin
+export RAILS_MAP_PASSWORD=your_secure_password
+```
+
+Or add to `.env` file:
+
+```
+RAILS_MAP_USERNAME=admin
+RAILS_MAP_PASSWORD=your_secure_password
 ```
 
 This automatically:
 - ✅ Creates `config/initializers/rails_map.rb` with authentication enabled
 - ✅ Mounts the engine at `/api-doc`
-- ✅ Creates migration for users table
 - ✅ Adds `/doc/api` to `.gitignore`
+- ✅ Uses default credentials (admin/password) if ENV variables not set
 
 Start your server and visit `http://localhost:3000/api-doc` - you'll be prompted to login!
 
@@ -56,7 +64,6 @@ This will:
 - ✅ Create the configuration file (auth disabled)
 - ✅ Mount the engine at `/api-doc`
 - ✅ Add `/doc/api` to `.gitignore`
-- ❌ Skip creating user migration
 
 Start your server and visit `/api-doc` - no login required!
 
@@ -118,9 +125,10 @@ RailsMap.configure do |config|
   # Include model scopes in documentation
   config.include_scopes = true
   
-  # Authentication (optional) - Protect documentation with authentication
+  # Authentication - Protect documentation with authentication
+  # Uses environment variables: RAILS_MAP_USERNAME and RAILS_MAP_PASSWORD
+  # Defaults to username: admin, password: password
   
-  # Option 1: Built-in authentication (recommended if not using Devise)
   config.authenticate_with = proc {
     RailsMap::Auth.authenticate(self)
   }
@@ -130,14 +138,7 @@ RailsMap.configure do |config|
   #   authenticate_user!
   # }
   
-  # Option 3: HTTP Basic Auth with ENV variables
-  # config.authenticate_with = proc {
-  #   authenticate_or_request_with_http_basic do |username, password|
-  #     username == ENV['DOC_USERNAME'] && password == ENV['DOC_PASSWORD']
-  #   end
-  # }
-  
-  # Option 4: Custom logic
+  # Option 3: Custom logic
   # config.authenticate_with = proc {
   #   redirect_to root_path unless current_user&.admin?
   # }

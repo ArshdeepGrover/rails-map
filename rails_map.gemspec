@@ -10,15 +10,15 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "Generate interactive API documentation for Rails routes, controllers, and models"
   spec.description   = "Automatically generates interactive API documentation for Rails by mapping routes, controllers, and models. Zero configuration—just install and go."
-  spec.homepage      = "https://github.com/ArshdeepGrover/rails-map"
+  spec.homepage      = "https://rails-map.netlify.app"
   spec.license       = "MIT"
   spec.required_ruby_version = ">= 2.7.0"
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = spec.homepage
-  spec.metadata["changelog_uri"] = "#{spec.homepage}/blob/main/CHANGELOG.md"
-  spec.metadata["bug_tracker_uri"] = "#{spec.homepage}/issues"
-  spec.metadata["documentation_uri"] = "#{spec.homepage}#readme"
+  spec.metadata["source_code_uri"] = "https://github.com/ArshdeepGrover/rails-map"
+  spec.metadata["changelog_uri"] = "https://github.com/ArshdeepGrover/rails-map/blob/main/CHANGELOG.md"
+  spec.metadata["bug_tracker_uri"] = "https://github.com/ArshdeepGrover/rails-map/issues"
+  spec.metadata["documentation_uri"] = spec.homepage
   spec.metadata["rubygems_mfa_required"] = "true"
 
   spec.files = Dir.chdir(__dir__) do
@@ -32,7 +32,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "rails", ">= 5.0"
-  spec.add_dependency "bcrypt", "~> 3.1"
 
   spec.add_development_dependency "bundler", "~> 2.0"
   spec.add_development_dependency "rake", "~> 13.0"

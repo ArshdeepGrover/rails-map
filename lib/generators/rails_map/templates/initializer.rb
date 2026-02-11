@@ -18,43 +18,21 @@ RailsMap.configure do |config|
   
   # Include model scopes in documentation
   config.include_scopes = true
-  
+
   # ============================================================================
-  # AUTHENTICATION (Optional - Uncomment to enable)
+  # AUTHENTICATION
   # ============================================================================
-  # By default, the documentation is publicly accessible.
-  # Uncomment one of the strategies below to add authentication:
-  
-<% unless options[:skip_auth] %>
-  # Strategy 1: Built-in authentication (ENABLED by default)
-  # To use: run migrations and create a user:
-  #   rails db:migrate
-  #   RailsMap::User.create!(username: 'admin', password: 'your_secure_password')
-  config.authenticate_with = proc {
-    RailsMap::Auth.authenticate(self)
-  }
-<% else %>
-  # Strategy 1: Built-in authentication (DISABLED via --skip-auth)
-  # To enable: run `rails g rails_map:install` (without --skip-auth)
-  # config.authenticate_with = proc {
-  #   RailsMap::Auth.authenticate(self)
-  # }
-<% end %>
-  
-  # Strategy 2: HTTP Basic Auth with environment variables
-  # config.authenticate_with = proc {
-  #   authenticate_or_request_with_http_basic do |username, password|
-  #     username == ENV['DOC_USERNAME'] && password == ENV['DOC_PASSWORD']
-  #   end
-  # }
-  
-  # Strategy 3: Devise (if you're using it)
-  # config.authenticate_with = proc {
-  #   authenticate_user!
-  # }
-  
-  # Strategy 4: Custom logic
-  # config.authenticate_with = proc {
-  #   redirect_to root_path unless session[:admin_authenticated]
-  # }
+  # Set RAILS_MAP_USERNAME and RAILS_MAP_PASSWORD environment variables
+  # to enable authentication. Leave them unset for public access.
+
+  <% unless options[:skip_auth] %>
+    config.authenticate_with = proc {
+      RailsMap::Auth.authenticate(self)
+    }
+  <% else %>
+    # Authentication disabled via --skip-auth flag
+    # To enable: Set RAILS_MAP_USERNAME and RAILS_MAP_PASSWORD environment variables
+    # and uncomment the line below:
+    # config.authenticate_with = proc { RailsMap::Auth.authenticate(self) }
+  <% end %>
 end
