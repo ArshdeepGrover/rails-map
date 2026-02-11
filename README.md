@@ -45,6 +45,7 @@ RAILS_MAP_PASSWORD=your_secure_password
 ```
 
 This automatically:
+
 - ✅ Creates `config/initializers/rails_map.rb` with authentication enabled
 - ✅ Mounts the engine at `/api-doc`
 - ✅ Adds `/doc/api` to `.gitignore`
@@ -61,6 +62,7 @@ rails g rails_map:install --skip-auth
 ```
 
 This will:
+
 - ✅ Create the configuration file (auth disabled)
 - ✅ Mount the engine at `/api-doc`
 - ✅ Add `/doc/api` to `.gitignore`
@@ -109,35 +111,35 @@ Create an initializer `config/initializers/rails_map.rb`:
 RailsMap.configure do |config|
   # Output directory for generated documentation
   config.output_dir = Rails.root.join('doc', 'api').to_s
-  
+
   # Application name displayed in the documentation
   config.app_name = 'My Application'
-  
+
   # Theme color (any valid CSS color)
   config.theme_color = '#3B82F6'
-  
+
   # Include timestamp columns (created_at, updated_at) in model documentation
   config.include_timestamps = true
-  
+
   # Include model validations in documentation
   config.include_validations = true
-  
+
   # Include model scopes in documentation
   config.include_scopes = true
-  
+
   # Authentication - Protect documentation with authentication
   # Uses environment variables: RAILS_MAP_USERNAME and RAILS_MAP_PASSWORD
   # Defaults to username: admin, password: password
-  
+
   config.authenticate_with = proc {
     RailsMap::Auth.authenticate(self)
   }
-  
+
   # Option 2: Devise
   # config.authenticate_with = proc {
   #   authenticate_user!
   # }
-  
+
   # Option 3: Custom logic
   # config.authenticate_with = proc {
   #   redirect_to root_path unless current_user&.admin?
@@ -153,6 +155,13 @@ end
 - 🏷️ **HTTP Method Badges** - Color-coded badges for different HTTP methods
 - 📊 **Statistics Dashboard** - Quick overview of your application structure
 - 🔍 **Association Type Badges** - Visual distinction for different association types
+- 📝 **API Parameter Detection** - Automatically extracts and displays parameters for each route
+  - Path parameters (`:id`, `:user_id`, etc.)
+  - Query parameters for GET/DELETE requests
+  - Request body parameters for POST/PUT/PATCH requests
+  - Type inference (string, integer, boolean, datetime, etc.)
+  - Required/optional indication
+  - Parameter location (path, query, body)
 
 ## Development
 

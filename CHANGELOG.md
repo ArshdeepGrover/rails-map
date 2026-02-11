@@ -7,9 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- API parameter detection and display for all routes
+  - Automatic extraction of path parameters (e.g., `:id`, `:user_id`)
+  - Query parameter detection for GET and DELETE requests
+  - Request body parameter detection for POST, PUT, and PATCH requests
+  - Intelligent type inference (string, integer, boolean, datetime, email, etc.)
+  - Required/optional parameter indication
+  - Parameter location display (path, query, or body)
+  - Expandable parameter details in routes and controller views
+- Controller action analysis to extract permitted parameters
+- Support for strong parameters pattern (`params.require().permit()`)
+- Parameter documentation in both live and static HTML documentation
+
 ## [1.1.0] - 2026-02-10
 
 ### Added
+
 - Live documentation via Rails Engine mounting at `/api-doc`
 - Built-in authentication system (no Devise required) with `RailsMap::User` model
 - Generator for easy installation: `rails g rails_map:install [--skip-auth]`
@@ -26,18 +41,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Quick start guide (`QUICKSTART.md`)
 
 ### Changed
+
 - Improved card layout design with hover effects
 - Better visual hierarchy for controller and model cards
 - Enhanced responsive grid layout (350px min card width)
 - Updated card styling with better spacing and shadows
 
 ### Fixed
+
 - Route constraint issue preventing access to namespaced controllers
 - Support for nested controller names with slashes (e.g., `admin/users`)
 
 ## [1.0.0] - 2026-02-09
 
 ### Added
+
 - Initial release
 - Route parsing and documentation generation
 - Model parsing with columns, associations, validations, and scopes

@@ -18,7 +18,7 @@
             <th>Method</th>
             <th>Path</th>
             <th>Controller#Action</th>
-            <th>Route Name</th>
+            <th>Parameters</th>
           </tr>
         </thead>
         <tbody>
@@ -37,10 +37,41 @@
                   </a>
                 </td>
                 <td>
-                  <% if route.name %>
-                    <code><%= route.name %></code>
+                  <% all_params = [] %>
+                  <% all_params += route.path_params if route.path_params&.any? %>
+                  <% verb = route.verb.to_s.upcase %>
+                  <% if %w[GET DELETE].include?(verb) %>
+                    <% all_params += route.query_params if route.query_params&.any? %>
+                  <% elsif %w[POST PUT PATCH].include?(verb) %>
+                    <% all_params += route.request_body_params if route.request_body_params&.any? %>
+                  <% end %>
+                  
+                  <% if all_params.any? %>
+                    <details style="cursor: pointer;">
+                      <summary style="color: var(--primary); font-weight: 500;">
+                        <%= all_params.size %> parameter<%= all_params.size > 1 ? 's' : '' %>
+                      </summary>
+                      <div style="margin-top: 0.5rem; padding: 0.75rem; background: var(--bg-secondary); border-radius: 6px; font-size: 0.875rem;">
+                        <% all_params.each do |param| %>
+                          <div style="margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border);">
+                            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                              <code style="font-weight: 600; color: var(--primary);"><%= param[:name] %></code>
+                              <span class="badge" style="font-size: 0.75rem; padding: 0.125rem 0.375rem;"><%= param[:type] %></span>
+                              <% if param[:required] %>
+                                <span style="color: #dc2626; font-size: 0.75rem; font-weight: 600;">required</span>
+                              <% else %>
+                                <span style="color: #6b7280; font-size: 0.75rem;">optional</span>
+                              <% end %>
+                            </div>
+                            <div style="color: #6b7280; font-size: 0.75rem;">
+                              Location: <%= param[:location] %>
+                            </div>
+                          </div>
+                        <% end %>
+                      </div>
+                    </details>
                   <% else %>
-                    <span style="color: var(--text-muted);">—</span>
+                    <span style="color: #6b7280;">No parameters</span>
                   <% end %>
                 </td>
               </tr>

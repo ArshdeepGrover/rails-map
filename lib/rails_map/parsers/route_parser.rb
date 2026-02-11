@@ -5,6 +5,7 @@ module RailsMap
     class RouteParser
       RouteInfo = Struct.new(
         :verb, :path, :controller, :action, :name, :constraints, :defaults, :base_path,
+        :path_params, :query_params, :request_body_params,
         keyword_init: true
       )
 
@@ -31,6 +32,8 @@ module RailsMap
           next unless controller && action
 
           path = extract_path(route)
+          path_params = extract_path_params(path)
+          
           RouteInfo.new(
             verb: extract_verb(route),
             path: path,
@@ -39,7 +42,10 @@ module RailsMap
             name: route.name,
             constraints: extract_constraints(route),
             defaults: extract_defaults(route),
-            base_path: extract_base_path(path)
+            base_path: extract_base_path(path),
+            path_params: path_params,
+            query_params: extract_query_params(controller, action),
+            request_body_params: extract_body_params(controller, action)
           )
         end.compact
       end
@@ -56,6 +62,167 @@ module RailsMap
         path = route.path.spec.to_s
         # Remove format segment if present
         path.gsub("(.:format)", "")
+      end
+
+      def extract_path_params(path)
+        # Extract parameters from path like :id, :user_id, etc.
+        params = []
+        path.scan(/:(\w+)/).flatten.each do |param|
+          params << {
+            name: param,
+            type: infer_param_type(param),
+            required: true,
+            location: 'path'
+          }
+        end
+        params
+      end
+
+      def extract_query_params(controller, action)
+        # Try to extract query parameters from controller action
+        params = []
+        begin
+          controller_file = find_controller_file(controller)
+          return params unless controller_file && File.exist?(controller_file)
+
+          content = File.read(controller_file)
+          
+          # Look for params.permit or params.require patterns in the action
+          action_content = extract_action_content(content, action)
+          return params unless action_content
+
+          # Extract permitted parameters
+          permitted_params = extract_permitted_params(action_content)
+          
+          # For GET requests, these are typically query params
+          permitted_params.each do |param|
+            params << {
+              name: param[:name],
+              type: param[:type] || 'string',
+              required: param[:required] || false,
+              location: 'query'
+            }
+          end
+        rescue => e
+          Rails.logger.debug "Could not extract query params for #{controller}##{action}: #{e.message}" if defined?(Rails.logger)
+        end
+        params
+      end
+
+      def extract_body_params(controller, action)
+        # Try to extract request body parameters from controller action
+        params = []
+        begin
+          controller_file = find_controller_file(controller)
+          return params unless controller_file && File.exist?(controller_file)
+
+          content = File.read(controller_file)
+          
+          # Look for params.permit or params.require patterns in the action
+          action_content = extract_action_content(content, action)
+          return params unless action_content
+
+          # Extract permitted parameters
+          permitted_params = extract_permitted_params(action_content)
+          
+          # For POST/PUT/PATCH requests, these are typically body params
+          permitted_params.each do |param|
+            params << {
+              name: param[:name],
+              type: param[:type] || 'string',
+              required: param[:required] || false,
+              location: 'body'
+            }
+          end
+        rescue => e
+          Rails.logger.debug "Could not extract body params for #{controller}##{action}: #{e.message}" if defined?(Rails.logger)
+        end
+        params
+      end
+
+      def find_controller_file(controller)
+        return nil unless defined?(Rails.root)
+        Rails.root.join('app', 'controllers', "#{controller}_controller.rb")
+      end
+
+      def extract_action_content(content, action)
+        # Extract the content of a specific action method
+        action_regex = /def\s+#{Regexp.escape(action)}\b.*?(?=\n\s*def\s|\n\s*private\s|\n\s*protected\s|\nend\s*\z)/m
+        match = content.match(action_regex)
+        match ? match[0] : nil
+      end
+
+      def extract_permitted_params(action_content)
+        params = []
+        
+        # Pattern 1: params.require(:model).permit(:attr1, :attr2, ...)
+        require_permit_pattern = /params\.require\(:(\w+)\)\.permit\((.*?)\)/m
+        if match = action_content.match(require_permit_pattern)
+          model_name = match[1]
+          permitted_attrs = match[2]
+          
+          # Extract individual attributes
+          permitted_attrs.scan(/:(\w+)/).flatten.each do |attr|
+            params << {
+              name: "#{model_name}[#{attr}]",
+              type: infer_param_type(attr),
+              required: true
+            }
+          end
+        end
+        
+        # Pattern 2: params.permit(:attr1, :attr2, ...)
+        permit_pattern = /params\.permit\((.*?)\)/m
+        action_content.scan(permit_pattern).flatten.each do |permitted_attrs|
+          permitted_attrs.scan(/:(\w+)/).flatten.each do |attr|
+            # Avoid duplicates
+            unless params.any? { |p| p[:name].include?(attr) }
+              params << {
+                name: attr,
+                type: infer_param_type(attr),
+                required: false
+              }
+            end
+          end
+        end
+        
+        # Pattern 3: params[:key] or params['key']
+        params_access_pattern = /params\[['"]?:?(\w+)['"]?\]/
+        action_content.scan(params_access_pattern).flatten.uniq.each do |attr|
+          # Avoid duplicates and common Rails params
+          next if %w[controller action format id].include?(attr)
+          unless params.any? { |p| p[:name] == attr || p[:name].include?(attr) }
+            params << {
+              name: attr,
+              type: infer_param_type(attr),
+              required: false
+            }
+          end
+        end
+        
+        params.uniq { |p| p[:name] }
+      end
+
+      def infer_param_type(param_name)
+        # Infer parameter type from name
+        case param_name.to_s
+        when /_(id|ids)$/
+          'integer'
+        when /^is_/, /^has_/, /_flag$/, /_enabled$/
+          'boolean'
+        when /_at$/, /_date$/
+          'datetime'
+        when /_count$/, /_number$/, /^count_/, /^num_/
+          'integer'
+        when /_price$/, /_amount$/, /_total$/
+          'decimal'
+        when /_email$/
+          'email'
+        when /_url$/
+          'url'
+        else
+          'string'
+        end
       end
 
       def extract_constraints(route)
