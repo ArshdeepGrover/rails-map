@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.1.1] - 2026-02-12
+## [1.2.0] - 2026-02-12
 
 ### Added
 
@@ -22,18 +22,44 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for simple permit pattern (`params.permit()`)
 - Support for direct parameter access pattern (`params[:key]`)
 - Parameter documentation in both live and static HTML documentation
+- Enhanced release script with interactive version management
+- Automatic version and CHANGELOG updates in release script
+- Rollback support in release script if push fails
+- Comprehensive community health files (CODE_OF_CONDUCT.md, CONTRIBUTING.md, SECURITY.md)
+- GitHub issue and PR templates
+- CI/CD workflow for automated testing across Ruby 2.7-3.3 and Rails 6.0-7.1
+- Enhanced gemspec with detailed description and post-install message
+- README badges for gem version, downloads, license, Ruby, and Rails versions
 
 ### Changed
 
+- **BREAKING:** Default mount path changed from `/api-doc` to `/rails-map` for better branding
 - Routes page now displays "Parameters" column instead of "Route Name" column
 - Controller page now displays "Parameters" column instead of "Constraints" column
 - Enhanced user experience with expandable parameter details
+- Improved gemspec metadata with additional URIs (wiki, funding, documentation)
+- Better Rails dependency specification (>= 5.0, < 8.0)
+
+### Migration Guide
+
+If upgrading from v1.1.x, update your routes file:
+
+```ruby
+# config/routes.rb
+# Old:
+mount RailsMap::Engine, at: '/api-doc'
+
+# New:
+mount RailsMap::Engine, at: '/rails-map'
+```
+
+Then visit `http://localhost:3000/rails-map` instead of `/api-doc`.
 
 ## [1.1.0] - 2026-02-10
 
 ### Added
 
-- Live documentation via Rails Engine mounting at `/api-doc`
+- Live documentation via Rails Engine mounting at `/rails-map`
 - Built-in authentication system (no Devise required) with `RailsMap::User` model
 - Generator for easy installation: `rails g rails_map:install [--skip-auth]`
 - Authentication enabled by default for security

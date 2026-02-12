@@ -9,7 +9,7 @@ This guide shows you how to protect your Rails documentation with authentication
 In your `config/routes.rb`:
 
 ```ruby
-mount RailsMap::Engine, at: '/api-doc'
+mount RailsMap::Engine, at: '/rails-map'
 ```
 
 ### 2. Create Configuration File
@@ -20,7 +20,7 @@ Create `config/initializers/rails_map.rb` in your Rails application:
 RailsMap.configure do |config|
   config.app_name = 'Your App Name'
   config.theme_color = '#3B82F6'
-  
+
   # Add authentication
   config.authenticate_with = proc {
     # Your authentication logic here
@@ -37,12 +37,14 @@ If you don't use Devise, use the built-in authentication system.
 **Setup:**
 
 1. Install with authentication:
+
 ```bash
 rails g rails_map:install
 rails db:migrate
 ```
 
 2. Create admin user(s):
+
 ```bash
 rails c
 RailsMap::User.create!(username: 'admin', password: 'your_secure_password')
@@ -50,13 +52,14 @@ RailsMap::User.create!(username: 'developer', password: 'another_password')
 ```
 
 3. Enable in configuration:
+
 ```ruby
 config.authenticate_with = proc {
   RailsMap::Auth.authenticate(self)
 }
 ```
 
-4. Restart server and visit `/api-doc` - you'll be prompted for username/password
+4. Restart server and visit `/rails-map` - you'll be prompted for username/password
 
 **Managing Users:**
 
@@ -141,7 +144,7 @@ config.authenticate_with = proc {
     redirect_to login_path
     return
   end
-  
+
   # Check user role
   unless current_user&.has_role?(:developer)
     render plain: 'Unauthorized', status: :unauthorized
@@ -156,7 +159,7 @@ Restrict by IP address:
 ```ruby
 config.authenticate_with = proc {
   allowed_ips = ['127.0.0.1', '::1', '10.0.0.0/8']
-  
+
   unless allowed_ips.any? { |ip| IPAddr.new(ip).include?(request.remote_ip) }
     render plain: 'Forbidden', status: :forbidden
   end
@@ -168,7 +171,7 @@ config.authenticate_with = proc {
 After configuring authentication:
 
 1. Restart your Rails server
-2. Visit `http://localhost:3000/api-doc`
+2. Visit `http://localhost:3000/rails-map`
 3. You should be prompted to authenticate
 
 ## No Authentication (Development Only)
@@ -210,6 +213,7 @@ config.authenticate_with = proc {
 ### Helper Methods Not Available
 
 The authentication block runs in the controller context, so you have access to:
+
 - `request`
 - `session`
 - `cookies`

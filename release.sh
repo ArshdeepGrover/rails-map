@@ -30,14 +30,71 @@ print_error() {
 }
 
 # Get the current version from version.rb
-VERSION=$(ruby -r ./lib/rails_map/version.rb -e "puts RailsMap::VERSION")
+CURRENT_VERSION=$(ruby -r ./lib/rails_map/version.rb -e "puts RailsMap::VERSION")
 GEM_NAME="rails_map"
-GEM_FILE="${GEM_NAME}-${VERSION}.gem"
 
 echo ""
 print_info "═══════════════════════════════════════════════════════"
-print_info "  RailsMap Release Script v${VERSION}"
+print_info "  RailsMap Release Script"
 print_info "═══════════════════════════════════════════════════════"
+echo ""
+
+# Show current version
+print_info "Current version: ${CURRENT_VERSION}"
+echo ""
+
+# Ask for new version
+print_warning "Enter the new version number (e.g., 1.2.0, 1.2.1, 2.0.0):"
+read -p "Version: " NEW_VERSION
+
+# Validate version format
+if [[ ! $NEW_VERSION =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+    print_error "Invalid version format. Please use semantic versioning (e.g., 1.2.0)"
+    exit 1
+fi
+
+# Check if version is different
+if [ "$NEW_VERSION" == "$CURRENT_VERSION" ]; then
+    print_warning "New version is the same as current version"
+    read -p "Continue anyway? (y/n) " -n 1 -r
+    echo ""
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        print_error "Release cancelled"
+        exit 1
+    fi
+fi
+
+# Confirm version change
+echo ""
+print_info "Version change: ${CURRENT_VERSION} → ${NEW_VERSION}"
+read -p "Is this correct? (y/n) " -n 1 -r
+echo ""
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    print_error "Release cancelled"
+    exit 1
+fi
+
+# Update version in version.rb
+print_info "Updating version in lib/rails_map/version.rb..."
+sed -i.bak "s/VERSION = \".*\"/VERSION = \"${NEW_VERSION}\"/" lib/rails_map/version.rb
+rm -f lib/rails_map/version.rb.bak
+print_success "Version updated to ${NEW_VERSION}"
+
+# Update version in CHANGELOG.md if it has Unreleased section
+if grep -q "\[Unreleased\]" CHANGELOG.md; then
+    print_info "Updating CHANGELOG.md..."
+    TODAY=$(date +%Y-%m-%d)
+    sed -i.bak "s/\[Unreleased\]/[${NEW_VERSION}] - ${TODAY}/" CHANGELOG.md
+    rm -f CHANGELOG.md.bak
+    print_success "CHANGELOG.md updated"
+fi
+
+# Set VERSION and GEM_FILE for the rest of the script
+VERSION=$NEW_VERSION
+GEM_FILE="${GEM_NAME}-${VERSION}.gem"
+
+echo ""
+print_info "Preparing to release version ${VERSION}"
 echo ""
 
 # Pre-flight checks
@@ -76,17 +133,38 @@ print_info "Version to release: ${VERSION}"
 echo ""
 
 # Step 2: Check for uncommitted changes
+print_info "Checking git status..."
 if [[ -n $(git status -s 2>/dev/null) ]]; then
     print_warning "You have uncommitted changes:"
     git status -s
     echo ""
-    read -p "Continue with uncommitted changes? (y/n) " -n 1 -r
+    
+    # Ask if user wants to commit version changes
+    print_info "Would you like to commit the version changes?"
+    read -p "Commit version changes? (y/n) " -n 1 -r
     echo ""
-    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        print_error "Release cancelled"
-        print_info "Please commit your changes first"
-        exit 1
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        git add lib/rails_map/version.rb
+        if grep -q "\[${VERSION}\]" CHANGELOG.md; then
+            git add CHANGELOG.md
+        fi
+        git commit -m "Bump version to ${VERSION}"
+        print_success "Version changes committed"
+        
+        read -p "Push to remote? (y/n) " -n 1 -r
+        echo ""
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            CURRENT_BRANCH=$(git branch --show-current 2>/dev/null || echo "main")
+            if git push origin "$CURRENT_BRANCH" 2>/dev/null; then
+                print_success "Changes pushed to remote"
+            else
+                print_warning "Failed to push (may need to set remote)"
+            fi
+        fi
+    else
+        print_warning "Continuing with uncommitted changes"
     fi
+    echo ""
 fi
 
 # Step 3: Run tests (if available)
@@ -173,6 +251,32 @@ else
     print_error "Failed to push gem to RubyGems"
     print_info "Gem file ${GEM_FILE} is still available locally"
     print_info "You can try pushing manually with: gem push ${GEM_FILE}"
+    echo ""
+    
+    # Ask if user wants to rollback version changes
+    print_warning "Would you like to rollback the version changes?"
+    read -p "Rollback to version ${CURRENT_VERSION}? (y/n) " -n 1 -r
+    echo ""
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        # Rollback version.rb
+        sed -i.bak "s/VERSION = \".*\"/VERSION = \"${CURRENT_VERSION}\"/" lib/rails_map/version.rb
+        rm -f lib/rails_map/version.rb.bak
+        print_success "Version rolled back to ${CURRENT_VERSION}"
+        
+        # Rollback CHANGELOG.md if it was updated
+        if grep -q "\[${VERSION}\]" CHANGELOG.md; then
+            sed -i.bak "s/\[${VERSION}\] - [0-9-]*/[Unreleased]/" CHANGELOG.md
+            rm -f CHANGELOG.md.bak
+            print_success "CHANGELOG.md rolled back"
+        fi
+        
+        # Rollback git commit if it was made
+        if git log -1 --pretty=%B 2>/dev/null | grep -q "Bump version to ${VERSION}"; then
+            git reset --soft HEAD~1
+            print_success "Git commit rolled back"
+        fi
+    fi
+    
     exit 1
 fi
 echo ""
@@ -224,10 +328,11 @@ print_info "Install: gem install ${GEM_NAME}"
 echo ""
 print_info "Next steps:"
 echo "  1. ✓ Gem published to RubyGems"
-echo "  2. → Commit and push any remaining changes"
-echo "  3. → Create a GitHub release"
-echo "  4. → Announce the release"
-echo "  5. → Update documentation if needed"
+echo "  2. ✓ Version updated to ${VERSION}"
+echo "  3. → Verify gem installation: gem install ${GEM_NAME}"
+echo "  4. → Create a GitHub release"
+echo "  5. → Announce the release"
+echo "  6. → Update documentation if needed"
 echo ""
 print_success "Great work! 🚀"
 echo ""

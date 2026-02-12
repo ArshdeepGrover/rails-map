@@ -9,7 +9,22 @@ Gem::Specification.new do |spec|
   spec.email         = ["arsh199820@gmail.com"]
 
   spec.summary       = "Generate interactive API documentation for Rails routes, controllers, and models"
-  spec.description   = "Automatically generates interactive API documentation for Rails by mapping routes, controllers, and models. Zero configuration—just install and go."
+  spec.description   = <<~DESC
+    RailsMap automatically generates beautiful, interactive API documentation for your Rails application.
+    
+    Features:
+    • Live documentation via Rails Engine at /rails-map
+    • Static HTML generation for offline use
+    • Automatic parameter detection (path, query, body)
+    • Route documentation with HTTP methods and paths
+    • Controller documentation with actions and parameters
+    • Model documentation with columns, associations, validations, and scopes
+    • Built-in authentication support
+    • Customizable themes and colors
+    • Zero configuration - just install and go!
+    
+    Perfect for API development, team collaboration, and maintaining up-to-date documentation.
+  DESC
   spec.homepage      = "https://rails-map.netlify.app"
   spec.license       = "MIT"
   spec.required_ruby_version = ">= 2.7.0"
@@ -19,7 +34,34 @@ Gem::Specification.new do |spec|
   spec.metadata["changelog_uri"] = "https://github.com/ArshdeepGrover/rails-map/blob/release/deploy/CHANGELOG.md"
   spec.metadata["bug_tracker_uri"] = "https://github.com/ArshdeepGrover/rails-map/issues"
   spec.metadata["documentation_uri"] = "https://github.com/ArshdeepGrover/rails-map#readme"
+  spec.metadata["wiki_uri"] = "https://github.com/ArshdeepGrover/rails-map/wiki"
+  spec.metadata["funding_uri"] = "https://github.com/sponsors/ArshdeepGrover"
   spec.metadata["rubygems_mfa_required"] = "true"
+  
+  # Additional metadata for better discoverability
+  spec.metadata["allowed_push_host"] = "https://rubygems.org"
+  spec.metadata["github_repo"] = "ssh://github.com/ArshdeepGrover/rails-map"
+  
+  # Post-install message
+  spec.post_install_message = <<~MSG
+    
+    ╔═══════════════════════════════════════════════════════════════╗
+    ║                                                               ║
+    ║   Thanks for installing RailsMap! 🎉                          ║
+    ║                                                               ║
+    ║   Get started:                                                ║
+    ║   $ rails g rails_map:install                                 ║
+    ║                                                               ║
+    ║   Then visit: http://localhost:3000/rails-map                 ║
+    ║                                                               ║
+    ║   Documentation: https://rails-map.netlify.app                ║
+    ║   GitHub: https://github.com/ArshdeepGrover/rails-map         ║
+    ║                                                               ║
+    ║   New in v1.2.0: Automatic API parameter detection! 🚀        ║
+    ║                                                               ║
+    ╚═══════════════════════════════════════════════════════════════╝
+    
+  MSG
 
   spec.files = Dir.chdir(__dir__) do
     `git ls-files -z`.split("\x0").reject do |f|

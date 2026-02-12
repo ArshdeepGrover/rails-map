@@ -1,5 +1,11 @@
 # Rails Map
 
+[![Gem Version](https://badge.fury.io/rb/rails_map.svg)](https://badge.fury.io/rb/rails_map)
+[![Downloads](https://img.shields.io/gem/dt/rails_map.svg)](https://rubygems.org/gems/rails_map)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Ruby](https://img.shields.io/badge/ruby-%3E%3D%202.7.0-ruby.svg)](https://www.ruby-lang.org)
+[![Rails](https://img.shields.io/badge/rails-%3E%3D%205.0-red.svg)](https://rubyonrails.org)
+
 🌐 **[Homepage](https://rails-map.netlify.app)** | 📦 **[RubyGems](https://rubygems.org/gems/rails_map)** | 🐙 **[GitHub](https://github.com/ArshdeepGrover/rails-map)**
 
 Automatically generates interactive API documentation for Rails by mapping routes, controllers, and models. Zero configuration—just install and go.
@@ -47,11 +53,11 @@ RAILS_MAP_PASSWORD=your_secure_password
 This automatically:
 
 - ✅ Creates `config/initializers/rails_map.rb` with authentication enabled
-- ✅ Mounts the engine at `/api-doc`
+- ✅ Mounts the engine at `/rails-map`
 - ✅ Adds `/doc/api` to `.gitignore`
 - ✅ Uses default credentials (admin/password) if ENV variables not set
 
-Start your server and visit `http://localhost:3000/api-doc` - you'll be prompted to login!
+Start your server and visit `http://localhost:3000/rails-map` - you'll be prompted to login!
 
 ### Setup Without Authentication
 
@@ -64,10 +70,10 @@ rails g rails_map:install --skip-auth
 This will:
 
 - ✅ Create the configuration file (auth disabled)
-- ✅ Mount the engine at `/api-doc`
+- ✅ Mount the engine at `/rails-map`
 - ✅ Add `/doc/api` to `.gitignore`
 
-Start your server and visit `/api-doc` - no login required!
+Start your server and visit `/rails-map` - no login required!
 
 ## Usage
 
@@ -76,10 +82,10 @@ Start your server and visit `/api-doc` - no login required!
 Mount the engine in your `config/routes.rb`:
 
 ```ruby
-mount RailsMap::Engine, at: '/api-doc'
+mount RailsMap::Engine, at: '/rails-map'
 ```
 
-Then visit `http://localhost:3000/api-doc` in your browser to see live documentation.
+Then visit `http://localhost:3000/rails-map` in your browser to see live documentation.
 
 ### Static HTML Generation
 

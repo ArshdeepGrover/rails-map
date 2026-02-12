@@ -3,11 +3,11 @@
 RailsMap has been installed!
 
 ✓ Configuration file created at:
-    config/initializers/rails_map.rb
+config/initializers/rails_map.rb
 
 <% unless options[:skip_routes] %>
 ✓ Route mounted in config/routes.rb:
-    mount RailsMap::Engine, at: '/api-doc'
+mount RailsMap::Engine, at: '/rails-map'
 <% end %>
 
 ✓ Added /doc/api to .gitignore
@@ -16,32 +16,34 @@ RailsMap has been installed!
 Authentication has been ENABLED (default)
 
 Next steps:
+
 1. Set environment variables:
-     export RAILS_MAP_USERNAME=admin
-     export RAILS_MAP_PASSWORD=your_secure_password
+   export RAILS_MAP_USERNAME=admin
+   export RAILS_MAP_PASSWORD=your_secure_password
 
    Or add to .env file:
-     RAILS_MAP_USERNAME=admin
-     RAILS_MAP_PASSWORD=your_secure_password
+   RAILS_MAP_USERNAME=admin
+   RAILS_MAP_PASSWORD=your_secure_password
 
-2. Restart your server and visit /api-doc
+2. Restart your server and visit /rails-map
    You'll be prompted to login with your credentials
 
 To disable authentication, run:
-  rails destroy rails_map:install
-  rails g rails_map:install --skip-auth
+rails destroy rails_map:install
+rails g rails_map:install --skip-auth
 <% else %>
 Authentication has been DISABLED (--skip-auth flag used)
 
 To enable authentication:
+
 1. Set RAILS_MAP_USERNAME and RAILS_MAP_PASSWORD environment variables
 2. Uncomment authentication in config/initializers/rails_map.rb
-<% end %>
+   <% end %>
 
 Documentation:
-  Visit http://localhost:3000/api-doc after starting your server
+Visit http://localhost:3000/rails-map after starting your server
 
 For more information, see:
-  https://rails-map.netlify.app
+https://rails-map.netlify.app
 
 ===============================================================================

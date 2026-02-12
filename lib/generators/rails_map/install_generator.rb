@@ -21,7 +21,7 @@ module RailsMap
       
       def add_route_mount
         unless options[:skip_routes]
-          route "mount RailsMap::Engine, at: '/api-doc'"
+          route "mount RailsMap::Engine, at: '/rails-map'"
         end
       end
       

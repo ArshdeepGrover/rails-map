@@ -23,18 +23,21 @@ bundle install
 ### Default Installation (With Authentication - Recommended)
 
 1. Run the generator:
+
 ```bash
 rails g rails_map:install
 rails db:migrate
 ```
 
 This automatically:
+
 - ✅ Creates `config/initializers/rails_map.rb` with auth enabled
 - ✅ Mounts the engine in `config/routes.rb`
 - ✅ Creates user migration
 - ✅ Adds `/doc/api` to `.gitignore`
 
 2. Create an admin user:
+
 ```bash
 rails c
 RailsMap::User.create!(username: 'admin', password: 'your_secure_password')
@@ -42,11 +45,12 @@ exit
 ```
 
 3. Start your server:
+
 ```bash
 rails s
 ```
 
-4. Visit `http://localhost:3000/api-doc` and login with your credentials
+4. Visit `http://localhost:3000/rails-map` and login with your credentials
 
 **That's it!** 🎉 Secure by default!
 
@@ -55,16 +59,18 @@ rails s
 ### Skip Authentication (Development Only)
 
 1. Run the generator with --skip-auth flag:
+
 ```bash
 rails g rails_map:install --skip-auth
 ```
 
 2. Start your server:
+
 ```bash
 rails s
 ```
 
-3. Visit: `http://localhost:3000/api-doc`
+3. Visit: `http://localhost:3000/rails-map`
 
 **No authentication required!** Use only in development.
 
@@ -95,22 +101,26 @@ config.include_timestamps = false
 ## Managing Users (Built-in Auth)
 
 ### Create User
+
 ```ruby
 RailsMap::User.create!(username: 'developer', password: 'password123')
 ```
 
 ### Change Password
+
 ```ruby
 user = RailsMap::User.find_by(username: 'developer')
 user.update!(password: 'new_password')
 ```
 
 ### Delete User
+
 ```ruby
 RailsMap::User.find_by(username: 'developer').destroy
 ```
 
 ### List All Users
+
 ```ruby
 RailsMap::User.all.pluck(:username)
 ```
@@ -129,16 +139,19 @@ Files are generated in `doc/api/` by default.
 
 ## Troubleshooting
 
-### Can't access /api-doc
+### Can't access /rails-map
+
 - Make sure you've mounted the engine in `config/routes.rb`
 - Restart your Rails server
 
 ### Authentication not working
+
 - Verify you've run migrations: `rails db:migrate`
 - Check that you've created a user
 - Ensure authentication is enabled in the initializer
 
 ### Controllers with slashes not showing
+
 - Update the gem to the latest version
 - The route constraint issue has been fixed
 
