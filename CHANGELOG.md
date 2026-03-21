@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.1] - 2026-02-13
+
+### Changed
+
+- **BREAKING:** Default static output directory changed from `doc/api` to `doc/rails-map`
+- Rails dependency expanded to support Rails 8.x (`>= 5.0, < 9.0`)
+- Static controller template now shows "Parameters" column (synced with live view)
+- Replaced deprecated `require_dependency` with `require` for Rails 7+ compatibility
+- Migration template now uses dynamic version (`ActiveRecord::Migration.current_version`)
+- Added `module_parent_name` fallback for Rails 5.x compatibility
+- Removed unused `Rails::Generators::Migration` include from install generator
+- Fixed stale `RailsDocGenerator` branding in static layout footer
+
 ## [1.2.0] - 2026-02-12
 
 ### Added
