@@ -1,13 +1,10 @@
 # frozen_string_literal: true
 
 require 'rails/generators'
-require 'rails/generators/migration'
 
 module RailsMap
   module Generators
     class InstallGenerator < Rails::Generators::Base
-      include Rails::Generators::Migration
-      
       source_root File.expand_path('templates', __dir__)
       
       desc "Installs RailsMap with environment-based authentication (use --skip-auth to disable)"
@@ -31,13 +28,13 @@ module RailsMap
         if File.exist?(gitignore_path)
           gitignore_content = File.read(gitignore_path)
           
-          unless gitignore_content.include?('doc/api')
+          unless gitignore_content.include?('doc/rails-map')
             append_to_file gitignore_path do
-              "\n# Ignore generated documentation\n/doc/api\n"
+              "\n# Ignore generated documentation\n/doc/rails-map\n"
             end
           end
         else
-          create_file gitignore_path, "# Ignore generated documentation\n/doc/api\n"
+          create_file gitignore_path, "# Ignore generated documentation\n/doc/rails-map\n"
         end
       end
       

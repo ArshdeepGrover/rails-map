@@ -67,7 +67,7 @@ Then visit `http://localhost:3000/rails-map` instead of `/api-doc`.
 - Automatic configuration file creation
 - Automatic engine mounting in routes
 - Automatic user migration creation (unless `--skip-auth`)
-- Automatic addition of `/doc/api` to `.gitignore`
+- Automatic addition of `/doc/rails-map` to `.gitignore`
 - Authentication support with `authenticate_with` configuration option
 - `RailsMap::Auth` helper module for authentication
 - Example configuration file with authentication examples

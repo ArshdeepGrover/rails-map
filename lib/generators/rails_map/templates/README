@@ -10,7 +10,7 @@ config/initializers/rails_map.rb
 mount RailsMap::Engine, at: '/rails-map'
 <% end %>
 
-✓ Added /doc/api to .gitignore
+✓ Added /doc/rails-map to .gitignore
 
 <% unless options[:skip_auth] %>
 Authentication has been ENABLED (default)

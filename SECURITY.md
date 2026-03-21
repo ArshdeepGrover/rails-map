@@ -94,7 +94,7 @@ For production, consider using static HTML generation instead of live documentat
 
 ```bash
 rails doc:generate
-# Deploy the doc/api folder to a secure location
+# Deploy the doc/rails-map folder to a secure location
 ```
 
 ### 6. Keep Updated

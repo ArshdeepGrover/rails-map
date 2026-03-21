@@ -18,15 +18,20 @@ module RailsMap
 
     def default_output_dir
       if defined?(Rails)
-        Rails.root.join("doc", "api").to_s
+        Rails.root.join("doc", "rails-map").to_s
       else
-        File.join(Dir.pwd, "doc", "api")
+        File.join(Dir.pwd, "doc", "rails-map")
       end
     end
 
     def default_app_name
       if defined?(Rails)
-        Rails.application.class.module_parent_name
+        app_class = Rails.application.class
+        if app_class.respond_to?(:module_parent_name)
+          app_class.module_parent_name
+        else
+          app_class.parent_name
+        end
       else
         "Rails Application"
       end

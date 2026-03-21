@@ -34,7 +34,7 @@ This automatically:
 - ✅ Creates `config/initializers/rails_map.rb` with auth enabled
 - ✅ Mounts the engine in `config/routes.rb`
 - ✅ Creates user migration
-- ✅ Adds `/doc/api` to `.gitignore`
+- ✅ Adds `/doc/rails-map` to `.gitignore`
 
 2. Create an admin user:
 
@@ -135,7 +135,7 @@ rails doc:open      # Open in browser
 rails doc:clean     # Remove generated files
 ```
 
-Files are generated in `doc/api/` by default.
+Files are generated in `doc/rails-map/` by default.
 
 ## Troubleshooting
 

@@ -2,13 +2,13 @@
 
 RailsMap.configure do |config|
   # Application name displayed in the documentation
-  config.app_name = '<%= Rails.application.class.module_parent_name %>'
+  config.app_name = '<%= Rails.application.class.respond_to?(:module_parent_name) ? Rails.application.class.module_parent_name : Rails.application.class.parent_name %>'
   
   # Theme color (any valid CSS color)
   config.theme_color = '#3B82F6'
   
   # Output directory for static HTML generation
-  config.output_dir = Rails.root.join('doc', 'api').to_s
+  config.output_dir = Rails.root.join('doc', 'rails-map').to_s
   
   # Include timestamp columns (created_at, updated_at) in model documentation
   config.include_timestamps = true

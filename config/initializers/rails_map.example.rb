@@ -11,7 +11,7 @@ RailsMap.configure do |config|
   config.theme_color = '#3B82F6'
   
   # Output directory for static HTML generation
-  config.output_dir = Rails.root.join('doc', 'api').to_s
+  config.output_dir = Rails.root.join('doc', 'rails-map').to_s
   
   # Include timestamp columns (created_at, updated_at) in model documentation
   config.include_timestamps = true

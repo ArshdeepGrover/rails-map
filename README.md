@@ -54,7 +54,7 @@ This automatically:
 
 - ✅ Creates `config/initializers/rails_map.rb` with authentication enabled
 - ✅ Mounts the engine at `/rails-map`
-- ✅ Adds `/doc/api` to `.gitignore`
+- ✅ Adds `/doc/rails-map` to `.gitignore`
 - ✅ Uses default credentials (admin/password) if ENV variables not set
 
 Start your server and visit `http://localhost:3000/rails-map` - you'll be prompted to login!
@@ -71,7 +71,7 @@ This will:
 
 - ✅ Create the configuration file (auth disabled)
 - ✅ Mount the engine at `/rails-map`
-- ✅ Add `/doc/api` to `.gitignore`
+- ✅ Add `/doc/rails-map` to `.gitignore`
 
 Start your server and visit `/rails-map` - no login required!
 
@@ -95,7 +95,7 @@ Run the following rake task to generate static HTML documentation:
 rails doc:generate
 ```
 
-This will generate HTML documentation in `doc/api/` directory.
+This will generate HTML documentation in `doc/rails-map/` directory.
 
 ### Open Documentation in Browser
 
@@ -116,7 +116,7 @@ Create an initializer `config/initializers/rails_map.rb`:
 ```ruby
 RailsMap.configure do |config|
   # Output directory for generated documentation
-  config.output_dir = Rails.root.join('doc', 'api').to_s
+  config.output_dir = Rails.root.join('doc', 'rails-map').to_s
 
   # Application name displayed in the documentation
   config.app_name = 'My Application'

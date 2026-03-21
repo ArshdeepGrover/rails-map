@@ -42,7 +42,7 @@ module RailsMap
         if defined?(Rails.root)
           Dir[Rails.root.join('app/models/**/*.rb')].each do |file|
             begin
-              require_dependency file
+              require file
             rescue => e
               # Ignore errors, file might already be loaded
             end
