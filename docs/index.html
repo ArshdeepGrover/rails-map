@@ -446,6 +446,284 @@
         color: var(--text-muted);
       }
 
+      /* Badges Strip */
+      .badges-strip {
+        padding: 3rem 2rem;
+        border-top: 1px solid var(--border);
+        background: var(--bg-card);
+      }
+      .badges-strip-inner {
+        max-width: 900px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2.5rem;
+        flex-wrap: wrap;
+      }
+      .compat-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.625rem;
+        padding: 0.625rem 1.25rem;
+        background: var(--bg-dark);
+        border: 1px solid var(--border);
+        border-radius: 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        transition: border-color 0.2s;
+      }
+      .compat-badge:hover { border-color: var(--border-light); }
+      .compat-badge-icon { font-size: 1.25rem; }
+      .compat-badge-text span { color: var(--text); }
+
+      /* Param Detection */
+      .param-detection {
+        padding: 6rem 2rem;
+      }
+      .param-detection-header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+      .param-demo-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        align-items: start;
+      }
+      .param-code-block {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        overflow: hidden;
+      }
+      .param-code-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.875rem 1.25rem;
+        background: var(--bg-dark);
+        border-bottom: 1px solid var(--border);
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: var(--text-dim);
+      }
+      .param-code-header-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+      }
+      .param-code-body {
+        padding: 1.5rem;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.8125rem;
+        line-height: 1.8;
+        overflow-x: auto;
+      }
+      .param-result-block {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        overflow: hidden;
+      }
+      .param-result-header {
+        padding: 0.875rem 1.25rem;
+        background: var(--bg-dark);
+        border-bottom: 1px solid var(--border);
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: var(--text-dim);
+      }
+      .param-result-body {
+        padding: 1rem;
+      }
+      .param-row {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .param-row:last-child { border-bottom: none; }
+      .param-name {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: var(--ruby-light);
+        min-width: 120px;
+      }
+      .param-type {
+        font-size: 0.6875rem;
+        padding: 0.1875rem 0.5rem;
+        background: var(--bg-dark);
+        border: 1px solid var(--border);
+        border-radius: 0.25rem;
+        color: var(--text-muted);
+        font-weight: 600;
+      }
+      .param-required {
+        font-size: 0.6875rem;
+        font-weight: 700;
+        color: var(--primary-light);
+      }
+      .param-optional {
+        font-size: 0.6875rem;
+        color: var(--text-dim);
+      }
+      .param-location {
+        font-size: 0.6875rem;
+        color: var(--text-dim);
+        margin-left: auto;
+      }
+      .param-features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        max-width: 1000px;
+        margin: 2.5rem auto 0;
+      }
+      .param-feature {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.75rem;
+        padding: 1.25rem;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 0.75rem;
+      }
+      .param-feature-icon { font-size: 1.25rem; flex-shrink: 0; }
+      .param-feature-text {
+        font-size: 0.875rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+      }
+      .param-feature-text strong {
+        color: var(--text);
+        display: block;
+        margin-bottom: 0.25rem;
+      }
+
+      /* Comparison */
+      .comparison {
+        padding: 6rem 2rem;
+        background: var(--bg-card);
+        border-top: 1px solid var(--border);
+      }
+      .comparison-header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+      .comparison-table-wrap {
+        max-width: 900px;
+        margin: 0 auto;
+        overflow-x: auto;
+      }
+      .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--bg-dark);
+        border: 1px solid var(--border);
+        border-radius: 1rem;
+        overflow: hidden;
+      }
+      .comparison-table th,
+      .comparison-table td {
+        padding: 1rem 1.5rem;
+        text-align: center;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.9375rem;
+      }
+      .comparison-table th {
+        background: var(--bg-card);
+        font-weight: 700;
+        font-size: 0.9375rem;
+        color: var(--text);
+        text-transform: none;
+        letter-spacing: 0;
+      }
+      .comparison-table th:first-child,
+      .comparison-table td:first-child {
+        text-align: left;
+        font-weight: 600;
+      }
+      .comparison-table tr:last-child td { border-bottom: none; }
+      .comparison-table td { color: var(--text-muted); }
+      .comp-yes { color: var(--success) !important; font-weight: 600; }
+      .comp-no { color: var(--primary-light) !important; }
+      .comp-partial { color: var(--warning) !important; }
+      .comp-highlight {
+        background: rgba(204, 52, 45, 0.05);
+      }
+      .comp-highlight td { color: var(--text) !important; }
+
+      /* FAQ */
+      .faq {
+        padding: 6rem 2rem;
+      }
+      .faq-header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+      .faq-grid {
+        max-width: 800px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+      .faq-item {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 0.75rem;
+        overflow: hidden;
+        transition: border-color 0.2s;
+      }
+      .faq-item:hover { border-color: var(--border-light); }
+      .faq-question {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.25rem 1.5rem;
+        background: none;
+        border: none;
+        color: var(--text);
+        font-size: 1rem;
+        font-weight: 600;
+        text-align: left;
+        cursor: pointer;
+        font-family: inherit;
+      }
+      .faq-question:hover { color: var(--ruby-light); }
+      .faq-chevron {
+        transition: transform 0.2s;
+        flex-shrink: 0;
+        color: var(--text-dim);
+      }
+      .faq-item.open .faq-chevron { transform: rotate(180deg); }
+      .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+      }
+      .faq-answer-inner {
+        padding: 0 1.5rem 1.25rem;
+        font-size: 0.9375rem;
+        color: var(--text-muted);
+        line-height: 1.7;
+      }
+      .faq-answer-inner code {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.8125rem;
+        background: var(--bg-dark);
+        padding: 0.125rem 0.375rem;
+        border-radius: 0.25rem;
+        color: var(--ruby-light);
+      }
+
       /* Problem Section */
       .problem {
         padding: 6rem 2rem;
@@ -1011,6 +1289,14 @@
         .demo-cards {
           grid-template-columns: 1fr;
         }
+
+        .param-demo-container {
+          grid-template-columns: 1fr;
+        }
+
+        .param-features {
+          grid-template-columns: 1fr;
+        }
       }
 
       @media (max-width: 768px) {
@@ -1078,6 +1364,9 @@
         <div class="nav-links">
           <a href="#problem">Why RailsMap</a>
           <a href="#features">Features</a>
+          <a href="#params">Parameters</a>
+          <a href="#comparison">Compare</a>
+          <a href="#faq">FAQ</a>
           <a href="#how-it-works">Get Started</a>
           <a href="https://github.com/ArshdeepGrover/rails-map" target="_blank"
             >GitHub</a
@@ -1214,6 +1503,32 @@
       </div>
     </section>
 
+    <!-- Badges Strip -->
+    <section class="badges-strip">
+      <div class="badges-strip-inner">
+        <div class="compat-badge">
+          <span class="compat-badge-icon">💎</span>
+          <span class="compat-badge-text">Ruby <span>≥ 2.7</span></span>
+        </div>
+        <div class="compat-badge">
+          <span class="compat-badge-icon">🛤️</span>
+          <span class="compat-badge-text">Rails <span>5 – 8</span></span>
+        </div>
+        <div class="compat-badge">
+          <span class="compat-badge-icon">📦</span>
+          <span class="compat-badge-text">v<span>1.3.0</span></span>
+        </div>
+        <div class="compat-badge">
+          <span class="compat-badge-icon">⚖️</span>
+          <span class="compat-badge-text"><span>MIT</span> License</span>
+        </div>
+        <div class="compat-badge">
+          <span class="compat-badge-icon">⚙️</span>
+          <span class="compat-badge-text">Zero <span>Config</span></span>
+        </div>
+      </div>
+    </section>
+
     <!-- Problem Section -->
     <section class="problem" id="problem">
       <div class="problem-content">
@@ -1283,7 +1598,7 @@
           <div class="solution-card-features">
             <span class="solution-card-feature">GET / POST / PUT / DELETE</span>
             <span class="solution-card-feature">Route Params</span>
-            <span class="solution-card-feature">Constraints</span>
+            <span class="solution-card-feature">Auto Parameter Detection</span>
           </div>
         </div>
         <div class="solution-card">
@@ -1297,7 +1612,7 @@
           <div class="solution-card-features">
             <span class="solution-card-feature">Columns & Types</span>
             <span class="solution-card-feature">Associations</span>
-            <span class="solution-card-feature">Validations</span>
+            <span class="solution-card-feature">Validations & Scopes</span>
           </div>
         </div>
         <div class="solution-card">
@@ -1337,7 +1652,7 @@
           </p>
           <div class="solution-card-features">
             <span class="solution-card-feature">One Command</span>
-            <span class="solution-card-feature">Auto-mount</span>
+            <span class="solution-card-feature">Rails 5 – 8</span>
             <span class="solution-card-feature">Works Instantly</span>
           </div>
         </div>
@@ -1353,6 +1668,102 @@
             <span class="solution-card-feature">Live Updates</span>
             <span class="solution-card-feature">No Manual Work</span>
             <span class="solution-card-feature">Always Accurate</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Parameter Detection Section -->
+    <section class="param-detection" id="params">
+      <div class="param-detection-header">
+        <span class="section-label">Smart Detection</span>
+        <h2 class="section-title">Automatic API parameter extraction</h2>
+        <p class="section-description">
+          RailsMap reads your controller code and automatically documents every parameter—path, query, and body—with type inference.
+        </p>
+      </div>
+      <div class="param-demo-container">
+        <div class="param-code-block">
+          <div class="param-code-header">
+            <span class="param-code-header-dot" style="background: var(--ruby)"></span>
+            Your Controller Code
+          </div>
+          <div class="param-code-body">
+            <span style="color: #f472b6">class</span> <span style="color: var(--text)">UsersController</span> &lt; <span style="color: var(--text-muted)">ApplicationController</span><br>
+            &nbsp;&nbsp;<span style="color: #f472b6">def</span> <span style="color: #60a5fa">update</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--text-muted)">@user</span> = <span style="color: var(--text)">User</span>.find(<span style="color: var(--text-muted)">params</span>[<span style="color: #4ade80">:id</span>])<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--text-muted)">@user</span>.update!(<span style="color: #60a5fa">user_params</span>)<br>
+            &nbsp;&nbsp;<span style="color: #f472b6">end</span><br>
+            <br>
+            &nbsp;&nbsp;<span style="color: #f472b6">private</span><br>
+            &nbsp;&nbsp;<span style="color: #f472b6">def</span> <span style="color: #60a5fa">user_params</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: var(--text-muted)">params</span>.require(<span style="color: #4ade80">:user</span>).permit(<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #4ade80">:name</span>, <span style="color: #4ade80">:email</span>, <span style="color: #4ade80">:is_admin</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;)<br>
+            &nbsp;&nbsp;<span style="color: #f472b6">end</span><br>
+            <span style="color: #f472b6">end</span>
+          </div>
+        </div>
+        <div class="param-result-block">
+          <div class="param-result-header">
+            🗺️ RailsMap Auto-Generates
+          </div>
+          <div class="param-result-body">
+            <div style="padding: 0.5rem 1rem; font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;">PUT /users/:id</div>
+            <div class="param-row">
+              <span class="param-name">:id</span>
+              <span class="param-type">integer</span>
+              <span class="param-required">required</span>
+              <span class="param-location">path</span>
+            </div>
+            <div class="param-row">
+              <span class="param-name">user[name]</span>
+              <span class="param-type">string</span>
+              <span class="param-required">required</span>
+              <span class="param-location">body</span>
+            </div>
+            <div class="param-row">
+              <span class="param-name">user[email]</span>
+              <span class="param-type">email</span>
+              <span class="param-required">required</span>
+              <span class="param-location">body</span>
+            </div>
+            <div class="param-row">
+              <span class="param-name">user[is_admin]</span>
+              <span class="param-type">boolean</span>
+              <span class="param-required">required</span>
+              <span class="param-location">body</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="param-features">
+        <div class="param-feature">
+          <span class="param-feature-icon">🔍</span>
+          <div class="param-feature-text">
+            <strong>Strong Params</strong>
+            Reads params.require().permit() patterns
+          </div>
+        </div>
+        <div class="param-feature">
+          <span class="param-feature-icon">🧠</span>
+          <div class="param-feature-text">
+            <strong>Type Inference</strong>
+            Detects integer, boolean, email, datetime, etc.
+          </div>
+        </div>
+        <div class="param-feature">
+          <span class="param-feature-icon">📍</span>
+          <div class="param-feature-text">
+            <strong>Location Aware</strong>
+            Distinguishes path, query, and body params
+          </div>
+        </div>
+        <div class="param-feature">
+          <span class="param-feature-icon">✅</span>
+          <div class="param-feature-text">
+            <strong>Required / Optional</strong>
+            Marks each parameter automatically
           </div>
         </div>
       </div>
@@ -1445,6 +1856,79 @@
       </div>
     </section>
 
+    <!-- Comparison Section -->
+    <section class="comparison" id="comparison">
+      <div class="comparison-header">
+        <span class="section-label">Why RailsMap</span>
+        <h2 class="section-title">How does it compare?</h2>
+        <p class="section-description">
+          No annotations. No YAML files. No manual work. Just install and go.
+        </p>
+      </div>
+      <div class="comparison-table-wrap">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Manual Docs</th>
+              <th>Swagger / rswag</th>
+              <th>RailsMap</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Setup time</td>
+              <td class="comp-no">Hours</td>
+              <td class="comp-partial">30+ min</td>
+              <td class="comp-yes">30 seconds</td>
+            </tr>
+            <tr>
+              <td>Configuration needed</td>
+              <td class="comp-no">Manual</td>
+              <td class="comp-partial">Annotations</td>
+              <td class="comp-yes">Zero</td>
+            </tr>
+            <tr>
+              <td>Auto-syncs with code</td>
+              <td class="comp-no">✗</td>
+              <td class="comp-partial">Partially</td>
+              <td class="comp-yes">✓</td>
+            </tr>
+            <tr>
+              <td>Route documentation</td>
+              <td class="comp-partial">Manual</td>
+              <td class="comp-yes">✓</td>
+              <td class="comp-yes">✓ Automatic</td>
+            </tr>
+            <tr>
+              <td>Model documentation</td>
+              <td class="comp-no">✗</td>
+              <td class="comp-no">✗</td>
+              <td class="comp-yes">✓ Automatic</td>
+            </tr>
+            <tr>
+              <td>Parameter detection</td>
+              <td class="comp-no">✗</td>
+              <td class="comp-partial">Manual DSL</td>
+              <td class="comp-yes">✓ Automatic</td>
+            </tr>
+            <tr>
+              <td>Built-in auth</td>
+              <td class="comp-no">✗</td>
+              <td class="comp-no">✗</td>
+              <td class="comp-yes">✓</td>
+            </tr>
+            <tr>
+              <td>Static HTML export</td>
+              <td class="comp-no">✗</td>
+              <td class="comp-partial">JSON only</td>
+              <td class="comp-yes">✓</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
     <!-- How it Works -->
     <section class="how-it-works" id="how-it-works">
       <div class="how-header">
@@ -1502,6 +1986,82 @@
               <span class="comment"
                 ># Default: username=admin, password=password</span
               >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+      <div class="faq-header">
+        <span class="section-label">FAQ</span>
+        <h2 class="section-title">Common questions</h2>
+      </div>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Does it work with API-only Rails apps?
+            <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Yes! RailsMap works with both full Rails apps and API-only apps. It reads your routes and models regardless of your app configuration.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Does it expose sensitive data?
+            <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              RailsMap documents your app's structure (routes, model columns, associations) — not actual data. Authentication is enabled by default to restrict access. You can also disable it in production entirely.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Can I use it in production?
+            <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Yes, with authentication enabled. You can also conditionally mount the engine only in specific environments, or use <code>rails doc:generate</code> to export static HTML and host it separately.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Does it work with Devise or custom auth?
+            <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Absolutely. The <code>authenticate_with</code> config accepts any proc. Use <code>authenticate_user!</code> for Devise, or write your own custom logic — IP whitelisting, role checks, anything.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            What Rails and Ruby versions are supported?
+            <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Ruby 2.7+ and Rails 5.0 through 8.x. We test across multiple versions to ensure compatibility.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Can I generate static HTML instead of using the live engine?
+            <svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              Yes. Run <code>rails doc:generate</code> to export static HTML to <code>doc/rails-map/</code>. You can then host it anywhere — S3, Netlify, internal wiki, etc.
             </div>
           </div>
         </div>
@@ -1582,7 +2142,7 @@
             >Issues</a
           >
           <a
-            href="https://github.com/ArshdeepGrover/rails-map/blob/main/CHANGELOG.md"
+            href="https://github.com/ArshdeepGrover/rails-map/blob/release/deploy/CHANGELOG.md"
             target="_blank"
             >Changelog</a
           >
@@ -1638,6 +2198,25 @@
           navbar.style.background = "rgba(9, 9, 11, 0.9)";
         }
       });
+
+      // FAQ toggle
+      function toggleFaq(btn) {
+        const item = btn.parentElement;
+        const answer = item.querySelector('.faq-answer');
+        const isOpen = item.classList.contains('open');
+
+        // Close all
+        document.querySelectorAll('.faq-item').forEach(i => {
+          i.classList.remove('open');
+          i.querySelector('.faq-answer').style.maxHeight = null;
+        });
+
+        // Open clicked if it was closed
+        if (!isOpen) {
+          item.classList.add('open');
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+      }
     </script>
   </body>
 </html>
