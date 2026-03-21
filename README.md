@@ -4,7 +4,7 @@
 [![Downloads](https://img.shields.io/gem/dt/rails_map.svg)](https://rubygems.org/gems/rails_map)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Ruby](https://img.shields.io/badge/ruby-%3E%3D%202.7.0-ruby.svg)](https://www.ruby-lang.org)
-[![Rails](https://img.shields.io/badge/rails-%3E%3D%205.0-red.svg)](https://rubyonrails.org)
+[![Rails](https://img.shields.io/badge/rails-%3E%3D%205.0%2C%20%3C%209.0-red.svg)](https://rubyonrails.org)
 
 🌐 **[Homepage](https://rails-map.netlify.app)** | 📦 **[RubyGems](https://rubygems.org/gems/rails_map)** | 🐙 **[GitHub](https://github.com/ArshdeepGrover/rails-map)**
 
